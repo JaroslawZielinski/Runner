@@ -1,0 +1,181 @@
+#!/bin/sh
+
+# The first parameter is the action name
+action=$1
+
+# Project
+PROJECTPATH=$(pwd)
+
+# Project Name
+PROJECTNAME=$(echo $PROJECTPATH | awk -F / '{print $NF}')
+
+# Project Name
+PROJECTNAMETOLOWER=$(echo $PROJECTNAME | awk '{ print tolower($0) }')
+
+# DockerPrefix
+DOCKERPREFIX=${PROJECTNAMETOLOWER}_
+
+# Mandatory Tools
+DOCKER=`which docker`
+if [ -z "$DOCKER" ];
+then
+    echo "'docker' was not found on your system." >&2
+    exit 1
+fi
+
+DOCKERCOMPOSE=`which docker-compose`
+if [ -z "$DOCKERCOMPOSE" ];
+then
+    echo "'docker-compose' was not found on your system." >&2
+    exit 1
+fi
+
+ENVF="$PROJECTPATH/.env"
+if [ ! -f $ENVF ];
+then
+  echo "The .env is not there $ENVF" >&2
+  exit 1
+fi
+
+DOCKERCOMPOSEF="$PROJECTPATH/docker-compose.yml"
+if [ ! -f $DOCKERCOMPOSEF ];
+then
+  echo "The docker-compose.yml is not there $DOCKERCOMPOSEF" >&2
+  exit 1
+fi
+
+. $ENVF
+
+if [ -z "$PROJECT_HOST" ];
+then
+  echo "The PROJECT_HOST is not set:(" >&2
+  exit 1
+fi
+
+if [ -z "$PROJECT_PORT" ];
+then
+  echo "The PROJECT_PORT is not set:(" >&2
+  exit 1
+fi
+
+if [ -z "$PROJECT_ROOT_PATH" ];
+then
+  echo "The PROJECT_ROOT_PATH is not set:(" >&2
+  exit 1
+fi
+
+if [ -z "$DB_ROOT_PASSWORD" ];
+then
+  echo "The DB_ROOT_PASSWORD is not set:(" >&2
+  exit 1
+fi
+
+if [ -z "$DB_PASSWORD" ];
+then
+  echo "The DB_PASSWORD is not set:(" >&2
+  exit 1
+fi
+
+if [ -z "$DB_DATABASE" ];
+then
+  echo "The DB_DATABASE is not set:(" >&2
+  exit 1
+fi
+
+if [ -z "$DB_USER" ];
+then
+  echo "The DB_USER is not set:(" >&2
+  exit 1
+fi
+
+hash docker 2>/dev/null || { echo >&2 "\"docker\" is required :("; exit 1; }
+
+hash docker-compose 2>/dev/null || { echo >&2 "\"docker-compose\" is required :("; exit 1; }
+
+# Utils
+
+# Color Utils
+# Black        0;30     Dark Gray     1;30
+# Red          0;31     Light Red     1;31
+# Green        0;32     Light Green   1;32
+# Brown/Orange 0;33     Yellow        1;33
+# Blue         0;34     Light Blue    1;34
+# Purple       0;35     Light Purple  1;35
+# Cyan         0;36     Light Cyan    1;36
+# Light Gray   0;37     White         1;37
+
+# Brown/Orange
+INFO='\033[0;33m'
+
+# Green
+INDEX='\033[0;32m'
+
+# No Color
+NC='\033[0m'
+
+reset() {
+    $DOCKER stop $($DOCKER ps -aq --filter name=$DOCKERPREFIX) && $DOCKER rm $($DOCKER ps -aq --filter name=$DOCKERPREFIX)
+}
+
+build() {
+    $DOCKER build -t runner-image-php dockers/php/ \
+    && $DOCKER build -t runner-image-mysql dockers/mysql/
+}
+
+serverOnly() {
+    dockersPhpIsRunning=$($DOCKER inspect --format "{{index .State.Running}}" ${DOCKERPREFIX}php_1)
+    if [ "$dockersPhpIsRunning" = true ]; then
+      mysqlHostname=$($DOCKER inspect --format "{{index .NetworkSettings.Networks.${PROJECTNAMETOLOWER}_runner.IPAddress}}" ${DOCKERPREFIX}mysql_1) \
+      && echo "${INFO}mysql -A -h $mysqlHostname -u root -p${DB_ROOT_PASSWORD}${NC}" \
+      && echo "${INFO}PhpMyAdmin: http://127.0.0.1:8080${NC}" \
+      && $DOCKER exec -it ${DOCKERPREFIX}php_1 ash -c "php -S ${PROJECT_HOST}:${PROJECT_PORT} -t ${PROJECT_ROOT_PATH}"
+    fi
+}
+
+init() {
+    $DOCKERCOMPOSE up -d \
+    && $DOCKER exec -it ${DOCKERPREFIX}php_1 ash -c "composer clear-cache && COMPOSER_PROCESS_TIMEOUT=2000 composer install" \
+    && serverOnly
+}
+
+all() {
+    reset
+    build
+    init
+}
+
+case "$action" in
+    reset)
+    reset
+    ;;
+
+    build)
+    build
+    ;;
+
+    init)
+    init
+    ;;
+
+    serverOnly)
+    serverOnly
+    ;;
+
+    all)
+    all
+    ;;
+
+    *)
+    printf "usage : $0 reset|build|init|serverOnly|all
+
+  ${INDEX}reset${NC}         Stops and removes all the project containers and reset vendors
+  ${INDEX}build${NC}         Build the docker images used in project(runner-image-mysql and runner-image-php)
+  ${INDEX}init${NC}          Run server Runner for the first time installing vendors
+  ${INDEX}serverOnly${NC}    Run server Runner only (the environment is already set)
+  ${INDEX}all${NC}           Set up the environment and run server Runner (do it only once)
+
+"
+    ;;
+esac
+
+exit 0

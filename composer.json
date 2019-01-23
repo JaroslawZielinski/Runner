@@ -1,0 +1,21 @@
+{
+    "name": "jarosawzielinski/runner",
+    "description": "a tool to start a new task",
+    "type": "project",
+    "require": {
+      "php-di/php-di": "dev-master",
+      "symfony/yaml": "^4.3@dev",
+      "slim/pdo": "~1.10",
+      "robmorgan/phinx": "dev-master",
+      "mnapoli/silly": "dev-master",
+      "monolog/monolog": "^2.0@dev"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jarosław Zieliński",
+            "email": "jarek.zielinski82@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
