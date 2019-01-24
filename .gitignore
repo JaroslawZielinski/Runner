@@ -1,0 +1,5 @@
+/vendor/
+.env
+docker-compose.yml
+/dockers/
+/run/
