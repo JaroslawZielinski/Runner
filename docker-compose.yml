@@ -27,8 +27,8 @@ services:
     image: runner-image-php
     ports:
       - '8000:8000'
-    volumes_from:
-      - app
+    volumes:
+      - .:/var/www/html
     env_file: .env
     working_dir: /var/www/html
     networks:
@@ -43,11 +43,6 @@ services:
       PMA_PORT: 3306
     networks:
       - runner
-
-  app:
-    image: alpine:latest
-    volumes:
-      - .:/var/www/html
 
 volumes:
     runnerdata:

@@ -15,7 +15,8 @@ RUN apk update --no-cache \
     && php -r "unlink('composer-setup.php');" \
     && docker-php-ext-install pdo pdo_mysql
 
-RUN apk add --update mysql mysql-client && rm -f /var/cache/apk/*    
+# install mysql client
+RUN apk add --update mysql mysql-client && rm -f /var/cache/apk/*
 
 # set up Europe/Warsaw timezone
 RUN apk add --no-cache tzdata

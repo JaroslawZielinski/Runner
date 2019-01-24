@@ -1,7 +1,11 @@
 #!/bin/sh
 
-# The first parameter is the action name
+# The action name as the first parameter
 action=$1
+
+# *******************************
+# ******* All Globals ***********
+# *******************************
 
 # Project
 PROJECTPATH=$(pwd)
@@ -9,13 +13,16 @@ PROJECTPATH=$(pwd)
 # Project Name
 PROJECTNAME=$(echo $PROJECTPATH | awk -F / '{print $NF}')
 
-# Project Name
+# Project Name To Lower
 PROJECTNAMETOLOWER=$(echo $PROJECTNAME | awk '{ print tolower($0) }')
 
 # DockerPrefix
 DOCKERPREFIX=${PROJECTNAMETOLOWER}_
 
-# Mandatory Tools
+# *******************************
+# ***** Mandatory Tools  ********
+# *******************************
+
 DOCKER=`which docker`
 if [ -z "$DOCKER" ];
 then
@@ -29,6 +36,10 @@ then
     echo "'docker-compose' was not found on your system." >&2
     exit 1
 fi
+
+# *******************************
+# ***** Mandatory Files  ********
+# *******************************
 
 ENVF="$PROJECTPATH/.env"
 if [ ! -f $ENVF ];
@@ -44,8 +55,14 @@ then
   exit 1
 fi
 
+# *******************************
+# **** Variables from .env  *****
+# *******************************
+
+# Load .env file
 . $ENVF
 
+# Check if all variables are present
 if [ -z "$PROJECT_HOST" ];
 then
   echo "The PROJECT_HOST is not set:(" >&2
@@ -88,11 +105,9 @@ then
   exit 1
 fi
 
-hash docker 2>/dev/null || { echo >&2 "\"docker\" is required :("; exit 1; }
-
-hash docker-compose 2>/dev/null || { echo >&2 "\"docker-compose\" is required :("; exit 1; }
-
-# Utils
+# *******************************
+# ********** Utils  *************
+# *******************************
 
 # Color Utils
 # Black        0;30     Dark Gray     1;30
@@ -110,11 +125,18 @@ INFO='\033[0;33m'
 # Green
 INDEX='\033[0;32m'
 
+# Yellow
+HIGHLIGHTED='\033[1;33m'
+
 # No Color
 NC='\033[0m'
 
-reset() {
-    $DOCKER stop $($DOCKER ps -aq --filter name=$DOCKERPREFIX) && $DOCKER rm $($DOCKER ps -aq --filter name=$DOCKERPREFIX)
+# *******************************
+# ******** Functions  ***********
+# *******************************
+
+destroy() {
+  $DOCKER stop $($DOCKER ps -aq --filter name=$DOCKERPREFIX) && $DOCKER rm $($DOCKER ps -aq --filter name=$DOCKERPREFIX)
 }
 
 build() {
@@ -139,14 +161,18 @@ init() {
 }
 
 all() {
-    reset
+    destroy
     build
     init
 }
 
+# *******************************
+# ******** User Menu  ***********
+# *******************************
+
 case "$action" in
-    reset)
-    reset
+    destroy)
+    destroy
     ;;
 
     build)
@@ -166,13 +192,13 @@ case "$action" in
     ;;
 
     *)
-    printf "usage : $0 reset|build|init|serverOnly|all
+    printf "How to use : $0 destroy|build|init|serverOnly|all
 
-  ${INDEX}reset${NC}         Stops and removes all the project containers and reset vendors
-  ${INDEX}build${NC}         Build the docker images used in project(runner-image-mysql and runner-image-php)
-  ${INDEX}init${NC}          Run server Runner for the first time installing vendors
-  ${INDEX}serverOnly${NC}    Run server Runner only (the environment is already set)
-  ${INDEX}all${NC}           Set up the environment and run server Runner (do it only once)
+  ${INDEX}destroy${NC}       Stops and removes all the server ${HIGHLIGHTED}${PROJECTNAME}${NC} docker containers
+  ${INDEX}build${NC}         Build the docker images used in server ${HIGHLIGHTED}${PROJECTNAME}${NC}
+  ${INDEX}init${NC}          Run server ${HIGHLIGHTED}${PROJECTNAME}${NC} for the first time installing vendors via composer
+  ${INDEX}serverOnly${NC}    Run server ${HIGHLIGHTED}${PROJECTNAME}${NC} only (the environment is already set)
+  ${INDEX}all${NC}           Set up the environment and run server ${HIGHLIGHTED}${PROJECTNAME}${NC} (do it only once)
 
 "
     ;;
