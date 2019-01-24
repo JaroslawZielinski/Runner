@@ -26,7 +26,7 @@ services:
       - mysql
     image: runner-image-php
     ports:
-      - '8000:8000'
+      - ${PROJECT_PORT}:${PROJECT_PORT}
     volumes:
       - .:/var/www/html
     env_file: .env
