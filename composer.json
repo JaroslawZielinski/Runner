@@ -6,16 +6,18 @@
         "url": "https://github.com/JaroslawZielinski/project-dockerized.git"
       }
     ],
-    "description": "a tool to start a new task",
+    "description": "A tool to develop quickly a new project",
     "type": "project",
     "require": {
+      "jaroslawzielinski/project-dockerized": "dev-master",
       "php-di/php-di": "dev-master",
       "symfony/yaml": "^4.3@dev",
       "slim/pdo": "~1.10",
       "robmorgan/phinx": "dev-master",
       "mnapoli/silly": "dev-master",
       "monolog/monolog": "^2.0@dev",
-      "jaroslawzielinski/project-dockerized": "dev-master"
+      "nikic/fast-route": "^2.0@dev",
+      "smarty/smarty": "~3.1"
     },
     "license": "MIT",
     "authors": [
