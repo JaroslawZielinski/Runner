@@ -1,5 +1,11 @@
 {
-    "name": "jarosawzielinski/runner",
+    "name": "jaroslawzielinski/runner",
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/JaroslawZielinski/project-dockerized.git"
+      }
+    ],
     "description": "a tool to start a new task",
     "type": "project",
     "require": {
@@ -8,7 +14,8 @@
       "slim/pdo": "~1.10",
       "robmorgan/phinx": "dev-master",
       "mnapoli/silly": "dev-master",
-      "monolog/monolog": "^2.0@dev"
+      "monolog/monolog": "^2.0@dev",
+      "jaroslawzielinski/project-dockerized": "dev-master"
     },
     "license": "MIT",
     "authors": [

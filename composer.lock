@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b8b15b855692e4d313db06707fba3ba8",
+    "content-hash": "ce98d7bc61a55693cb5586a00b62d6be",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -339,6 +339,57 @@
                 "utility"
             ],
             "time": "2018-09-14T01:26:50+00:00"
+        },
+        {
+            "name": "jaroslawzielinski/project-dockerized",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JaroslawZielinski/project-dockerized.git",
+                "reference": "8f48840adc660a6360c756b4630b090ebb4f8b87"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JaroslawZielinski/project-dockerized/zipball/8f48840adc660a6360c756b4630b090ebb4f8b87",
+                "reference": "8f48840adc660a6360c756b4630b090ebb4f8b87",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "map": [
+                    [
+                        "docker-compose.yml",
+                        "docker-compose.yml"
+                    ],
+                    [
+                        "dockers",
+                        "dockers"
+                    ],
+                    [
+                        ".env",
+                        ".env"
+                    ],
+                    [
+                        "run/dockerized",
+                        "run/dockerized"
+                    ]
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jarosław Zieliński",
+                    "email": "jarek.zielinski82@gmail.com"
+                }
+            ],
+            "description": "PHP Composer procject dockerized with mysql",
+            "support": {
+                "source": "https://github.com/JaroslawZielinski/project-dockerized/tree/master",
+                "issues": "https://github.com/JaroslawZielinski/project-dockerized/issues"
+            },
+            "time": "2019-01-24T11:18:12+00:00"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -1482,7 +1533,8 @@
         "symfony/yaml": 20,
         "robmorgan/phinx": 20,
         "mnapoli/silly": 20,
-        "monolog/monolog": 20
+        "monolog/monolog": 20,
+        "jaroslawzielinski/project-dockerized": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
