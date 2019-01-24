@@ -26,6 +26,7 @@
     ],
     "minimum-stability": "dev",
      "extra": {
+        "installer-types" : [ "custom-plugin" ], 
         "installer-paths": {
             "/":  ["type:custom-plugin"]
         }
