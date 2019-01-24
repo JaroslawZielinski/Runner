@@ -24,5 +24,10 @@
             "email": "jarek.zielinski82@gmail.com"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+     "extra": {
+        "installer-paths": {
+            "/":  ["type:custom-plugin"]
+        }
+    }
 }
