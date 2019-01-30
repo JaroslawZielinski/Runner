@@ -3,4 +3,5 @@
 docker-compose.yml
 /dockers/
 /run/
+composer.lock
 /.idea/
