@@ -25,6 +25,11 @@
         }
     ],
     "minimum-stability": "dev",
+    "autoload": {
+      "psr-4": {
+        "JaroslawZielinski\\Runner\\": "src/"
+      }
+    },
     "scripts": {
       "dockerize-myproject": [
         "chmod +x vendor/jaroslawzielinski/project-dockerized/setup.sh",
