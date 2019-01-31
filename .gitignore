@@ -5,3 +5,5 @@ docker-compose.yml
 /run/
 composer.lock
 /.idea/
+/log/
+/web/templates_c
