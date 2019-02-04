@@ -14,6 +14,10 @@ class LogoutController extends AbstractController
      */
     public function send()
     {
+        if ($this->checkIfSecurityIssueForAnonymous()) {
+            return;
+        }
+
         $this->logger->info(LogoutController::class . ' has called function register with POST');
 
         //log-in user

@@ -16,6 +16,10 @@ class RegisterController extends AbstractController
      */
     public function during()
     {
+        if ($this->checkIfSecurityIssueForLogged()) {
+            return;
+        }
+
         $this->setCsrfProtection();
 
         //show page
@@ -32,6 +36,10 @@ class RegisterController extends AbstractController
      */
     public function send()
     {
+        if ($this->checkIfSecurityIssueForLogged()) {
+            return;
+        }
+
         $this->logger->info(RegisterController::class . ' has called function register with POST');
 
         //security check

@@ -134,6 +134,40 @@ abstract class AbstractController implements ControllerInterface
     }
 
     /**
+     * @return bool
+     */
+    public function checkIfSecurityIssueForLogged()
+    {
+        if ($this->isLoggedUser()) {
+            $this->logger->warning("Logged user's unnecessary action");
+
+            $this->setMessage(self::ALERT_DANGER, "This was not neccessary!");
+
+            header("Location: " . $this->routerRoutings->get('index'));
+            die;
+        }
+
+        return false;
+    }
+
+    /**
+     *
+     */
+    public function checkIfSecurityIssueForAnonymous()
+    {
+        if (!$this->isLoggedUser()) {
+            $this->logger->warning('Anonymous user tried to gain unauthorized access...');
+
+            $this->setMessage(self::ALERT_DANGER, "Action denied. This is forbidden.");
+
+            header("Location: " . $this->routerRoutings->get('index'));
+            die;
+        }
+
+        return false;
+    }
+
+    /**
      * CSRF Protection
      */
     public function setCsrfProtection()
@@ -181,7 +215,15 @@ abstract class AbstractController implements ControllerInterface
      */
     public function getLoggedUser()
     {
-        return isset($_SESSION[self::SESSION_USER_LOGGED]) ? $_SESSION[self::SESSION_USER_LOGGED] : null;
+        return $this->isLoggedUser() ? $_SESSION[self::SESSION_USER_LOGGED] : null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLoggedUser()
+    {
+        return isset($_SESSION[self::SESSION_USER_LOGGED]);
     }
 
     /**
