@@ -54,7 +54,7 @@ class LoginController extends AbstractController
             $user = $this->userRepository->readByLoginAndPassword($login, $password);
         } catch (Exception $e) {
             $this->logger->error(LoginController::class . ': ' . $e->getMessage(), [$e->getTrace()]);
-            $this->setMessage(self::ALERT_DANGER, sprintf("Reading user was not accomplished because: %s", $e->getMessage()));
+            $this->setMessage(self::ALERT_DANGER, sprintf("Login attempt failed: %s!", $e->getMessage()));
 
             header("Location: " . $this->routerRoutings->get('login.front'));
             return true;

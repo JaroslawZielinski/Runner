@@ -8,8 +8,7 @@ composer install
 run/dockerized destroy
 run/dockerized build
 run/dockerized init
-docker exec -it runner_php_1 ash -c "source .env"
-docker exec -it runner_php_1 ash -c "vendor/bin/phinx migrate -e development"
+docker exec -it runner_php_1 ash -c "source .env && vendor/bin/phinx migrate -e development"
 run/dockerized serverOnly
 ```
 ## Useful commands after that:

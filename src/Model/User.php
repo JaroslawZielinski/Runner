@@ -11,6 +11,11 @@ class User
     /**
      * @var
      */
+    protected $userId;
+
+    /**
+     * @var
+     */
     protected $firstName;
 
     /**
@@ -50,6 +55,7 @@ class User
 
     /**
      * User constructor.
+     * @param $userId
      * @param $firstName
      * @param $lastName
      * @param $email
@@ -59,8 +65,9 @@ class User
      * @param $createdAt
      * @param $updatedAt
      */
-    public function __construct($firstName, $lastName, $email, $gender, $isActive, $password, $createdAt, $updatedAt)
+    public function __construct($userId, $firstName, $lastName, $email, $gender, $isActive, $password, $createdAt, $updatedAt)
     {
+        $this->userId = $userId;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;
@@ -69,6 +76,14 @@ class User
         $this->password = $password;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 
     /**
@@ -143,6 +158,7 @@ class User
     {
         $now = date('Y-m-d H:i:s');
         return new User(
+            isset($fields['user_id']) ? $fields['user_id'] : 0,
             isset($fields['first_name']) ? $fields['first_name'] : "John",
             isset($fields['last_name']) ? $fields['last_name'] : "Doe",
             isset($fields['email']) ? $fields['email'] : "john.doe@gmail.com",

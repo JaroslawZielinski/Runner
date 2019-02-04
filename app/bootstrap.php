@@ -53,6 +53,7 @@ class Application implements InvokerInterface
     }
 
     /**
+     * @return Application
      * @throws Exception
      */
     public static function create()
@@ -61,6 +62,7 @@ class Application implements InvokerInterface
             'log_file' => '../log/runner.log',
             'routes_file' => '../src/routes.yaml',
             'template_dir' => '../src/templates/',
+            'env_path' => ['../', '.'],
             LoggerInterface::class => factory(function (ContainerInterface $c) {
                 $logger = new Logger('Runner');
 
@@ -92,7 +94,7 @@ class Application implements InvokerInterface
                     get(TemplatesInterface::class)
                 ),
             DataBase::class => factory(function (ContainerInterface $c) {
-                $dotEnv = Dotenv::create('../');
+                $dotEnv = Dotenv::create($c->get('env_path'));
                 $envArr = $dotEnv->load();
                 //dbase
                 return new DataBase(sprintf("mysql:host=%s;dbname=%s;charset=utf8", $envArr['DB_HOST'], $envArr['DB_DATABASE']), "root", $envArr['DB_ROOT_PASSWORD']);

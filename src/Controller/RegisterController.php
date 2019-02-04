@@ -51,7 +51,8 @@ class RegisterController extends AbstractController
 
         //create user
         try {
-            $this->userRepository->create($user);
+            $lastId = $this->userRepository->create($user);
+            $this->logger->info(RegisterController::class . ': User has been created!', ["lastId" => $lastId, "user" => $user->__toString()]);
         } catch (Exception $e) {
             $this->logger->error(RegisterController::class . ': ' . $e->getMessage(), [$e->getTrace()]);
             $this->setMessage(self::ALERT_DANGER, sprintf("Creating user was not accomplished because: %s", $e->getMessage()));
@@ -61,7 +62,10 @@ class RegisterController extends AbstractController
         }
 
         //success
-        $this->logger->info(RegisterController::class . ' Form was validated', [$user->__toString()]);
+        //login
+        $this->logIn($user);
+        $this->logger->info(RegisterController::class . ' User has been logged in', [$user->__toString()]);
+
         $this->setMessage(self::ALERT_SUCCESS, sprintf("Welcome <a class=\"alert-link\">\"%s\"</a>", $user->__toString()));
 
         header("Location: " . $this->routerRoutings->get('homepage'));

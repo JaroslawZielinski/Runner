@@ -1,0 +1,26 @@
+# project menu
+
+# index
+index:
+  route: index
+  class: JaroslawZielinski\Runner\Menu\IndexMenu
+
+# homepage
+homepage:
+  route: homepage
+  class: JaroslawZielinski\Runner\Menu\HomePageMenu
+
+# login
+login:
+  route: login.front
+  class: JaroslawZielinski\Runner\Menu\LoginMenu
+
+# register
+register:
+  route: register.front
+  class: JaroslawZielinski\Runner\Menu\RegisterMenu
+
+# logout
+logout:
+  route: logout.backend
+  class: JaroslawZielinski\Runner\Menu\LogoutMenu

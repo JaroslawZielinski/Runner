@@ -21,7 +21,7 @@ class LogoutController extends AbstractController
         $this->before();
 
         //success
-        $this->logger->info(LogoutController::class . ' User loggedout');
+        $this->logger->info(LogoutController::class . ' User logged out');
         $this->setMessage(self::ALERT_SUCCESS, "User logout.");
 
         header("Location: " . $this->routerRoutings->get('homepage'));
