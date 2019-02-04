@@ -94,7 +94,6 @@ class Application implements InvokerInterface
             DataBase::class => factory(function (ContainerInterface $c) {
                 $dotEnv = Dotenv::create('../');
                 $envArr = $dotEnv->load();
-
                 //dbase
                 return new DataBase(sprintf("mysql:host=%s;dbname=%s;charset=utf8", $envArr['DB_HOST'], $envArr['DB_DATABASE']), "root", $envArr['DB_ROOT_PASSWORD']);
             })

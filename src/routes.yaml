@@ -26,6 +26,14 @@ login.backend:
     - send
   method: POST
 
+# user logout backend
+logout.backend:
+  path: /logout
+  controller:
+    - JaroslawZielinski\Runner\Controller\LogoutController
+    - send
+  method: GET
+
 # user register frontend
 register.front:
   path: /register

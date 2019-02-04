@@ -139,7 +139,7 @@ class User
      * @param array $fields
      * @return User
      */
-    public static function createFromArray($fields)
+    public static function createFromArray($fields = [])
     {
         $now = date('Y-m-d H:i:s');
         return new User(

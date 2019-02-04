@@ -18,7 +18,7 @@
       "monolog/monolog": "^2.0@dev",
       "nikic/fast-route": "^2.0@dev",
       "smarty/smarty": "~3.1",
-        "vlucas/phpdotenv": "^3.3@dev"
+      "vlucas/phpdotenv": "^3.3@dev"
     },
     "license": "MIT",
     "authors": [

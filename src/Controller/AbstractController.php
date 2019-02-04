@@ -2,6 +2,8 @@
 
 namespace JaroslawZielinski\Runner\Controller;
 
+use JaroslawZielinski\Runner\Model\User;
+use JaroslawZielinski\Runner\Model\UserRepository;
 use JaroslawZielinski\Runner\Plugins\FastRouterRoutingsInterface;
 use JaroslawZielinski\Runner\Plugins\TemplatesInterface;
 use Psr\Log\LoggerInterface;
@@ -21,7 +23,12 @@ abstract class AbstractController implements ControllerInterface
     /**
      *
      */
-    const SESSION_MESSAGE = 'mymsg';
+    const SESSION_USER_LOGGED = 'current_user';
+
+    /**
+     *
+     */
+    const SESSION_USER_MESSAGE = 'mymsg';
 
     /**
      *
@@ -79,6 +86,11 @@ abstract class AbstractController implements ControllerInterface
     protected $templates;
 
     /**
+     * @var UserRepository
+     */
+    protected $userRepository;
+
+    /**
      * @var Smarty
      */
     protected $templateHandler;
@@ -93,19 +105,22 @@ abstract class AbstractController implements ControllerInterface
      * @param LoggerInterface $logger
      * @param FastRouterRoutingsInterface $routerRoutings
      * @param TemplatesInterface $templates
+     * @param UserRepository $userRepository
      */
-    public function __construct(LoggerInterface $logger, FastRouterRoutingsInterface $routerRoutings, TemplatesInterface $templates)
+    public function __construct(LoggerInterface $logger, FastRouterRoutingsInterface $routerRoutings, TemplatesInterface $templates, UserRepository $userRepository)
     {
         $this->logger = $logger;
         $this->routerRoutings = $routerRoutings;
         $this->templates = $templates;
+        $this->userRepository = $userRepository;
+
         $this->templateHandler = $this->templates->getHandler();
         $templateDir = '../' . $this->templates->getTemplateDir();
 
         $this->templateHandler
             ->assign('templateDir', $templateDir)
             ->assign('homepage', $templateDir . 'homepage.tpl')
-            ->assign('message', $_SESSION[self::SESSION_MESSAGE])
+            ->assign('message', $_SESSION[self::SESSION_USER_MESSAGE])
         ;
     }
 
@@ -146,10 +161,34 @@ abstract class AbstractController implements ControllerInterface
      */
     public function setMessage($type = self::ALERT_INFO, $content = "Empty")
     {
-        $_SESSION[self::SESSION_MESSAGE] = [
+        $_SESSION[self::SESSION_USER_MESSAGE] = [
             'type' => $type,
             'content' => $content
         ];
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLoggedUser()
+    {
+        return isset($_SESSION[self::SESSION_USER_LOGGED]) ? $_SESSION[self::SESSION_USER_LOGGED] : null;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function logIn(User $user)
+    {
+        $_SESSION[self::SESSION_USER_LOGGED] = $user->getEmail();
+    }
+
+    /**
+     *
+     */
+    public function logOut()
+    {
+        unset($_SESSION[self::SESSION_USER_LOGGED]);
     }
 
     /**
@@ -157,7 +196,22 @@ abstract class AbstractController implements ControllerInterface
      */
     public function flushMessage()
     {
-        unset($_SESSION[self::SESSION_MESSAGE]);
+        unset($_SESSION[self::SESSION_USER_MESSAGE]);
+    }
+
+    /**
+     *
+     */
+    public final function before()
+    {
+        $loggedUser = $this->getLoggedUser();
+        if (!empty($loggedUser)) {
+            $this->templateHandler
+                ->assign('userLogged', $loggedUser);
+        } else {
+            $this->templateHandler
+                ->clearAssign('userLogged');
+        }
     }
 
     /**
@@ -165,6 +219,7 @@ abstract class AbstractController implements ControllerInterface
      */
     public final function execute()
     {
+        $this->before();
         $this->during();
         $this->after();
     }

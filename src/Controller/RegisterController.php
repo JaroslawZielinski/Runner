@@ -4,10 +4,6 @@ namespace JaroslawZielinski\Runner\Controller;
 
 use Exception;
 use JaroslawZielinski\Runner\Model\User;
-use JaroslawZielinski\Runner\Model\UserRepository;
-use JaroslawZielinski\Runner\Plugins\FastRouterRoutingsInterface;
-use JaroslawZielinski\Runner\Plugins\TemplatesInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class RegisterController
@@ -15,25 +11,6 @@ use Psr\Log\LoggerInterface;
  */
 class RegisterController extends AbstractController
 {
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-
-    /**
-     * RegisterController constructor.
-     * @param LoggerInterface $logger
-     * @param FastRouterRoutingsInterface $routerRoutings
-     * @param TemplatesInterface $templates
-     * @param UserRepository $userRepository
-     */
-    public function __construct(LoggerInterface $logger, FastRouterRoutingsInterface $routerRoutings, TemplatesInterface $templates, UserRepository $userRepository)
-    {
-        parent::__construct($logger, $routerRoutings, $templates);
-
-        $this->userRepository = $userRepository;
-    }
-
     /**
      *
      */
@@ -72,7 +49,7 @@ class RegisterController extends AbstractController
         //collect data
         $user = User::createFromArray($_POST);
 
-        //creatue user
+        //create user
         try {
             $this->userRepository->create($user);
         } catch (Exception $e) {
@@ -85,7 +62,7 @@ class RegisterController extends AbstractController
 
         //success
         $this->logger->info(RegisterController::class . ' Form was validated', [$user->__toString()]);
-        $this->setMessage(self::ALERT_SUCCESS, sprintf("User <a class=\"alert-link\">\"%s\"</a> has been registered!", $user->__toString()));
+        $this->setMessage(self::ALERT_SUCCESS, sprintf("Welcome <a class=\"alert-link\">\"%s\"</a>", $user->__toString()));
 
         header("Location: " . $this->routerRoutings->get('homepage'));
     }

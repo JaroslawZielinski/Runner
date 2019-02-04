@@ -31,6 +31,18 @@ class UserRepository
      */
     public function create(User $user)
     {
+        //TODO: create user to database
         throw new Exception('Hola hola panie Henry!');
+    }
+
+    /**
+     * @param $login
+     * @param $password
+     * @return User
+     */
+    public function readByLoginAndPassword($login, $password)
+    {
+        //TODO: read a user from database using login-email and password
+        return User::createFromArray();
     }
 }
