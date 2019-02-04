@@ -4,6 +4,18 @@
     <script src="/js/form.utils.js" type="text/javascript"></script>
 {/block}
 
+{block name=message-box}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            {if isset($message)}
+                {include file="`$templateDir`message.tpl" alertType=$message.type|default:'info' message=$message.content|default:'Empty message'}
+            {/if}
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+{/block}
+
 {block name=content}
     <div class="runner">
         <h1>Login form</h1>

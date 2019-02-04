@@ -29,16 +29,28 @@
 
                 <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                     <ul class="navbar-nav mr-auto">
+
                         <li class="nav-item active">
                             <a class="nav-link" href="/homepage">Home</a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="/login">Login</a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="/register">Register</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
                     </ul>
+                    <div class="my-2 my-lg-0 navbar-dark navbar-brand">
+                        {if isset($userLogged)}
+                            {$userLogged}
+                        {/if}
+                    </div>
                 </div>
             </nav>
         {/block}
@@ -64,6 +76,7 @@
             {/block}
 
             {block name=footer}
+                {*Template from https://getbootstrap.com/docs/4.1/examples/starter-template/ *}
                 <footer class="pt-2 lgrey">
                     <div class="text-center py-2">Project to quick start a new task:
                         <a href="https://github.com/JaroslawZielinski/Runner"> Runner</a>
