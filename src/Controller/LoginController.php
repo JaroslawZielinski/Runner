@@ -15,10 +15,15 @@ class LoginController extends AbstractController
      */
     public function during()
     {
+        if ($this->checkIfSecurityIssueForLogged()) {
+            return;
+        }
+
         $this->setCsrfProtection();
 
         //show page
         $this->templateHandler
+            ->assign('path', $this->routerRoutings->get('login.frontend'))
             ->assign('backendPath', $this->routerRoutings->get('login.backend'))
             ->display($this->templates->getTemplateDir() . 'login.tpl');
 
@@ -30,6 +35,10 @@ class LoginController extends AbstractController
      */
     public function send()
     {
+        if ($this->checkIfSecurityIssueForLogged()) {
+            return;
+        }
+
         $this->logger->info(LoginController::class . ' has called function register with POST');
 
         //security check
@@ -41,7 +50,7 @@ class LoginController extends AbstractController
                 'check_token' => $_COOKIE[self::CSRF_TOKEN]
             ]);
 
-            header("Location: " . $this->routerRoutings->get('login.front'));
+            header("Location: " . $this->routerRoutings->get('login.frontend'));
             return true;
         }
 
@@ -56,7 +65,7 @@ class LoginController extends AbstractController
             $this->logger->error(LoginController::class . ': ' . $e->getMessage(), [$e->getTrace()]);
             $this->setMessage(self::ALERT_DANGER, sprintf("Login attempt failed: %s!", $e->getMessage()));
 
-            header("Location: " . $this->routerRoutings->get('login.front'));
+            header("Location: " . $this->routerRoutings->get('login.frontend'));
             return true;
         }
 

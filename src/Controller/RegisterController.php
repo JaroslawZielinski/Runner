@@ -16,10 +16,15 @@ class RegisterController extends AbstractController
      */
     public function during()
     {
+        if ($this->checkIfSecurityIssueForLogged()) {
+            return;
+        }
+
         $this->setCsrfProtection();
 
         //show page
         $this->templateHandler
+            ->assign('path', $this->routerRoutings->get('register.frontend'))
             ->assign('backendPath', $this->routerRoutings->get('register.backend'))
             ->display($this->templates->getTemplateDir() . 'register.tpl');
 
@@ -31,6 +36,10 @@ class RegisterController extends AbstractController
      */
     public function send()
     {
+        if ($this->checkIfSecurityIssueForLogged()) {
+            return;
+        }
+
         $this->logger->info(RegisterController::class . ' has called function register with POST');
 
         //security check
@@ -42,7 +51,7 @@ class RegisterController extends AbstractController
                 'check_token' => $_COOKIE[self::CSRF_TOKEN]
             ]);
 
-            header("Location: " . $this->routerRoutings->get('register.front'));
+            header("Location: " . $this->routerRoutings->get('register.frontend'));
             return true;
         }
 
@@ -57,7 +66,7 @@ class RegisterController extends AbstractController
             $this->logger->error(RegisterController::class . ': ' . $e->getMessage(), [$e->getTrace()]);
             $this->setMessage(self::ALERT_DANGER, sprintf("Creating user was not accomplished because: %s", $e->getMessage()));
 
-            header("Location: " . $this->routerRoutings->get('register.front'));
+            header("Location: " . $this->routerRoutings->get('register.frontend'));
             return true;
         }
 

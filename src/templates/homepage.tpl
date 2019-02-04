@@ -11,6 +11,7 @@
 
         <!-- Bootstrap -->
         <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
         <script src="/js/jquery-3.3.1.slim.min.js"></script>
         <script src="/js/popper.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
@@ -29,22 +30,13 @@
 
                 <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                     <ul class="navbar-nav mr-auto">
-
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/homepage">Home</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">Login</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/register">Register</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </li>
+                        {foreach $menus as $menu}
+                            {if $menu.visible == 'true'}
+                                <li class="nav-item {if $path == $menu.route}active{/if}">
+                                    <a class="nav-link" href="{$menu.route}">{$menu@key}</a>
+                                </li>
+                            {/if}
+                        {/foreach}
                     </ul>
                     <div class="my-2 my-lg-0 navbar-dark navbar-brand">
                         {if isset($userLogged)}
@@ -68,10 +60,14 @@
                 </div>
                 <div>
                     <p class="lead">Useful commands:</p>
-                    <p>git clone https://github.com/JaroslawZielinski/Runner.git</p>
-                    <p>cd Runner</p>
-                    <p>composer install</p>
-                    <p>run/dockerized all</p>
+                    <p class="ssh-style">git clone https://github.com/JaroslawZielinski/Runner.git</p>
+                    <p class="ssh-style">cd Runner</p>
+                    <p class="ssh-style">composer install</p>
+                    <p class="ssh-style">run/dockerized destroy</p>
+                    <p class="ssh-style">run/dockerized build</p>
+                    <p class="ssh-style">run/dockerized init</p>
+                    <p class="ssh-style">docker exec -it runner_php_1 ash -c "source .env && vendor/bin/phinx migrate -e development"</p>
+                    <p class="ssh-style">run/dockerized serverOnly</p>
                 </div>
             {/block}
 

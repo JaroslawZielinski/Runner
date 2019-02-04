@@ -9,3 +9,8 @@ body {
 .lgrey {
     background-color: lightgrey!important;
 }
+
+.ssh-style {
+    font-family: monospace,monospace;
+    font-size: 14px;
+}

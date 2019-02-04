@@ -6,6 +6,10 @@ use Exception;
 use Invoker\InvokerInterface;
 use Smarty;
 
+/**
+ * Class EasyStackTraceGenerator
+ * @package JaroslawZielinski\Runner\Plugins
+ */
 class EasyStackTraceGenerator implements InvokerInterface
 {
     /**
@@ -28,7 +32,6 @@ class EasyStackTraceGenerator implements InvokerInterface
 
         $this->templateHandler = $this->templates->getHandler();
     }
-
 
     /**
      * Call the given function using the given parameters.

@@ -8,5 +8,7 @@ namespace JaroslawZielinski\Runner\Menu;
  */
 interface MenuInterface
 {
-
+    public function getLink();
+    public function getName();
+    public function isVisible() : bool;
 }
