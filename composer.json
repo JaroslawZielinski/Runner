@@ -17,7 +17,8 @@
       "mnapoli/silly": "dev-master",
       "monolog/monolog": "^2.0@dev",
       "nikic/fast-route": "^2.0@dev",
-      "smarty/smarty": "~3.1"
+      "smarty/smarty": "~3.1",
+      "vlucas/phpdotenv": "^3.3@dev"
     },
     "license": "MIT",
     "authors": [
@@ -27,6 +28,11 @@
         }
     ],
     "minimum-stability": "dev",
+    "autoload": {
+      "psr-4": {
+        "JaroslawZielinski\\Runner\\": "src/"
+      }
+    },
     "scripts": {
       "dockerize-myproject": [
         "chmod +x vendor/jaroslawzielinski/project-dockerized/setup.sh",

@@ -1,0 +1,16 @@
+body {
+    padding-top: 5rem;
+}
+.runner {
+    padding: 0px 1.5rem;
+    text-align: center;
+}
+
+.lgrey {
+    background-color: lightgrey!important;
+}
+
+.ssh-style {
+    font-family: monospace,monospace;
+    font-size: 14px;
+}

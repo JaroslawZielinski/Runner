@@ -1,0 +1,21 @@
+# project menu
+
+# homepage
+homepage:
+  class: JaroslawZielinski\Runner\Menu\HomePageMenu
+  order: 10
+
+# login
+login:
+  class: JaroslawZielinski\Runner\Menu\LoginMenu
+  order: 20
+
+# register
+register:
+  class: JaroslawZielinski\Runner\Menu\RegisterMenu
+  order: 30
+
+# logout
+logout:
+  class: JaroslawZielinski\Runner\Menu\LogoutMenu
+  order: 40

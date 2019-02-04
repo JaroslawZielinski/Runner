@@ -3,3 +3,7 @@
 docker-compose.yml
 /dockers/
 /run/
+composer.lock
+/.idea/
+/log/
+/web/templates_c

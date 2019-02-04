@@ -1,2 +1,5 @@
 <?php
-echo "Hello World!";
+
+require __DIR__ . '/../app/bootstrap.php';
+
+die(Application::run());
