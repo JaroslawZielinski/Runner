@@ -1,0 +1,41 @@
+# project routings
+
+# index
+index:
+  path: /
+  controller: JaroslawZielinski\Runner\Controller\IndexController
+  method: GET
+
+# homepage
+homepage:
+  path: /homepage
+  controller: JaroslawZielinski\Runner\Controller\HomePageController
+  method: GET
+
+# user login frontend
+login.front:
+  path: /login
+  controller: JaroslawZielinski\Runner\Controller\LoginController
+  method: GET
+
+# user login backend
+login.backend:
+  path: /login/send
+  controller:
+    - JaroslawZielinski\Runner\Controller\LoginController
+    - send
+  method: POST
+
+# user register frontend
+register.front:
+  path: /register
+  controller: JaroslawZielinski\Runner\Controller\RegisterController
+  method: GET
+
+# register backend
+register.backend:
+  path: /register/send
+  controller:
+    - JaroslawZielinski\Runner\Controller\RegisterController
+    - send
+  method: POST
