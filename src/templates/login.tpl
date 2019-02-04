@@ -1,7 +1,7 @@
 {extends file="{$homepage}"}
 
 {block name=head}
-    <script src="/js/form.utils.js" type="text/javascript"></script>
+    <script src="/js/form.utils.min.js" type="text/javascript"></script>
 {/block}
 
 {block name=message-box}

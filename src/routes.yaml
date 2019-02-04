@@ -13,7 +13,7 @@ homepage:
   method: GET
 
 # user login frontend
-login.front:
+login.frontend:
   path: /login
   controller: JaroslawZielinski\Runner\Controller\LoginController
   method: GET
@@ -35,7 +35,7 @@ logout.backend:
   method: GET
 
 # user register frontend
-register.front:
+register.frontend:
   path: /register
   controller: JaroslawZielinski\Runner\Controller\RegisterController
   method: GET

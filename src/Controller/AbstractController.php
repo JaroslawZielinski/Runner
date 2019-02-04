@@ -5,6 +5,8 @@ namespace JaroslawZielinski\Runner\Controller;
 use JaroslawZielinski\Runner\Model\User;
 use JaroslawZielinski\Runner\Model\UserRepository;
 use JaroslawZielinski\Runner\Plugins\FastRouterRoutingsInterface;
+use JaroslawZielinski\Runner\Plugins\MenuItems;
+use JaroslawZielinski\Runner\Plugins\MenuItemsInterface;
 use JaroslawZielinski\Runner\Plugins\TemplatesInterface;
 use Psr\Log\LoggerInterface;
 use Smarty;
@@ -91,6 +93,11 @@ abstract class AbstractController implements ControllerInterface
     protected $userRepository;
 
     /**
+     * @var MenuItemsInterface
+     */
+    protected $menuItems;
+
+    /**
      * @var Smarty
      */
     protected $templateHandler;
@@ -106,14 +113,15 @@ abstract class AbstractController implements ControllerInterface
      * @param FastRouterRoutingsInterface $routerRoutings
      * @param TemplatesInterface $templates
      * @param UserRepository $userRepository
+     * @param MenuItemsInterface $menuItems
      */
-    public function __construct(LoggerInterface $logger, FastRouterRoutingsInterface $routerRoutings, TemplatesInterface $templates, UserRepository $userRepository)
+    public function __construct(LoggerInterface $logger, FastRouterRoutingsInterface $routerRoutings, TemplatesInterface $templates, UserRepository $userRepository, MenuItemsInterface $menuItems)
     {
         $this->logger = $logger;
         $this->routerRoutings = $routerRoutings;
         $this->templates = $templates;
         $this->userRepository = $userRepository;
-
+        $this->menuItems = $menuItems;
         $this->templateHandler = $this->templates->getHandler();
         $templateDir = '../' . $this->templates->getTemplateDir();
 
@@ -121,6 +129,7 @@ abstract class AbstractController implements ControllerInterface
             ->assign('templateDir', $templateDir)
             ->assign('homepage', $templateDir . 'homepage.tpl')
             ->assign('message', $_SESSION[self::SESSION_USER_MESSAGE])
+            ->assign('menus', $this->menuItems->getMenuItemsArray())
         ;
     }
 

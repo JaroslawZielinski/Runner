@@ -13,6 +13,9 @@ use JaroslawZielinski\Runner\Plugins\EasyStackTraceGenerator;
 use JaroslawZielinski\Runner\Plugins\FastRouter;
 use JaroslawZielinski\Runner\Plugins\FastRouterRoutings;
 use JaroslawZielinski\Runner\Plugins\FastRouterRoutingsInterface;
+use JaroslawZielinski\Runner\Plugins\MenuItems;
+use JaroslawZielinski\Runner\Plugins\MenuItemsInterface;
+use JaroslawZielinski\Runner\Plugins\Menus;
 use JaroslawZielinski\Runner\Plugins\Templates;
 use JaroslawZielinski\Runner\Plugins\TemplatesInterface;
 use Monolog\Formatter\LineFormatter;
@@ -61,6 +64,7 @@ class Application implements InvokerInterface
         $definitions = [
             'log_file' => '../log/runner.log',
             'routes_file' => '../src/routes.yaml',
+            'menuitems_file' => '../src/menu.yaml',
             'template_dir' => '../src/templates/',
             'env_path' => ['../', '.'],
             LoggerInterface::class => factory(function (ContainerInterface $c) {
@@ -76,9 +80,7 @@ class Application implements InvokerInterface
                 //routes configuration file
                 $routes = Yaml::parseFile($c->get('routes_file'));
 
-                $fastRouterRoutings = new FastRouterRoutings($routes);
-
-                return $fastRouterRoutings;
+                return new FastRouterRoutings($routes);
             }),
             FastRouter::class => create(FastRouter::class)
                 ->constructor(
@@ -98,6 +100,14 @@ class Application implements InvokerInterface
                 $envArr = $dotEnv->load();
                 //dbase
                 return new DataBase(sprintf("mysql:host=%s;dbname=%s;charset=utf8", $envArr['DB_HOST'], $envArr['DB_DATABASE']), "root", $envArr['DB_ROOT_PASSWORD']);
+            }),
+            MenuItemsInterface::class => factory(function (FastRouterRoutingsInterface $routerRoutings, ContainerInterface $c) {
+                //menu Items configuration file
+                $menuItems = Yaml::parseFile($c->get('menuitems_file'));
+
+                $menus = new MenuItems($routerRoutings, $menuItems);
+
+                return $menus;
             })
         ];
 

@@ -3,17 +3,17 @@
 namespace JaroslawZielinski\Runner\Menu;
 
 /**
- * Class IndexMenu
+ * Class HomePageMenu
  * @package JaroslawZielinski\Runner\Menu
  */
-class IndexMenu extends AbstractMenu
+class HomePageMenu extends AbstractMenu
 {
     /**
-     * @return mixed
+     *
      */
     public function getLink()
     {
-        return $this->routerRoutings->get('index');
+        return $this->routerRoutings->get('homepage');
     }
 
     /**
@@ -21,6 +21,6 @@ class IndexMenu extends AbstractMenu
      */
     public function getName()
     {
-        return "";
+        return "Home";
     }
 }
