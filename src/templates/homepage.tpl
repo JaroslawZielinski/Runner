@@ -60,14 +60,14 @@
                 </div>
                 <div>
                     <p class="lead">Useful commands:</p>
-                    <p>git clone https://github.com/JaroslawZielinski/Runner.git</p>
-                    <p>cd Runner</p>
-                    <p>composer install</p>
-                    <p>run/dockerized destroy</p>
-                    <p>run/dockerized build</p>
-                    <p>run/dockerized init</p>
-                    <p>docker exec -it runner_php_1 ash -c "source .env && vendor/bin/phinx migrate -e development"</p>
-                    <p>run/dockerized serverOnly</p>
+                    <p class="ssh-style">git clone https://github.com/JaroslawZielinski/Runner.git</p>
+                    <p class="ssh-style">cd Runner</p>
+                    <p class="ssh-style">composer install</p>
+                    <p class="ssh-style">run/dockerized destroy</p>
+                    <p class="ssh-style">run/dockerized build</p>
+                    <p class="ssh-style">run/dockerized init</p>
+                    <p class="ssh-style">docker exec -it runner_php_1 ash -c "source .env && vendor/bin/phinx migrate -e development"</p>
+                    <p class="ssh-style">run/dockerized serverOnly</p>
                 </div>
             {/block}
 

@@ -38,6 +38,7 @@ class MenuItems implements MenuItemsInterface
      */
     public function getMenuItemsArray()
     {
+        //sort with asc order
         uasort($this->menuItemsArray, function ($a, $b) {
             return $a['order'] <=> $b['order'];
         });
@@ -46,9 +47,8 @@ class MenuItems implements MenuItemsInterface
 
         foreach ($this->menuItemsArray as $menuItem) {
             $className = $menuItem['class'];
-            $class = $className;
             /** @var MenuInterface $instance */
-            $instance = new $class($this->routerRoutings);
+            $instance = new $className($this->routerRoutings);
 
             if (!($instance instanceof MenuInterface)) {
                 throw new Exception("Wrong usage of a class name in configuration yml.");
