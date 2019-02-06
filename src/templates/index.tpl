@@ -2,7 +2,9 @@
 
 {block name=content}
     <div class="runner">
-        <h1>Author</h1>
+        <h1>PHP Developer</h1>
         <p class="lead">Jarosław Zieliński</p>
+        <p>phone: +48 737 606 919</p>
+        <p>e-mail: jarek.zielinski82@gmail.com</p>
     </div>
 {/block}

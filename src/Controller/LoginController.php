@@ -35,6 +35,7 @@ class LoginController extends AbstractController
      */
     public function send()
     {
+        // to prevent logged users do silly things
         if ($this->checkIfSecurityIssueForLogged()) {
             return;
         }
@@ -60,7 +61,7 @@ class LoginController extends AbstractController
 
         //read user
         try {
-            $user = $this->userRepository->readByLoginAndPassword($login, $password);
+            $user = $this->userRepository->readByLoginAndPassword(strip_tags($login), strip_tags($password));
         } catch (Exception $e) {
             $this->logger->error(LoginController::class . ': ' . $e->getMessage(), [$e->getTrace()]);
             $this->setMessage(self::ALERT_DANGER, sprintf("Login attempt failed: %s!", $e->getMessage()));

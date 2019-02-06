@@ -47,3 +47,4 @@ register.backend:
     - JaroslawZielinski\Runner\Controller\RegisterController
     - send
   method: POST
+

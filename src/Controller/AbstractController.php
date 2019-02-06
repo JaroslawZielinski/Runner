@@ -5,7 +5,6 @@ namespace JaroslawZielinski\Runner\Controller;
 use JaroslawZielinski\Runner\Model\User;
 use JaroslawZielinski\Runner\Model\UserRepository;
 use JaroslawZielinski\Runner\Plugins\FastRouterRoutingsInterface;
-use JaroslawZielinski\Runner\Plugins\MenuItems;
 use JaroslawZielinski\Runner\Plugins\MenuItemsInterface;
 use JaroslawZielinski\Runner\Plugins\TemplatesInterface;
 use Psr\Log\LoggerInterface;
@@ -17,6 +16,16 @@ use Smarty;
  */
 abstract class AbstractController implements ControllerInterface
 {
+    /**
+     * logged user login
+     */
+    const USER_LOGIN = 'login';
+
+    /**
+     * logged user id
+     */
+    const USER_ID = 'user_id';
+
     /**
      *
      */
@@ -129,8 +138,7 @@ abstract class AbstractController implements ControllerInterface
             ->assign('templateDir', $templateDir)
             ->assign('homepage', $templateDir . 'homepage.tpl')
             ->assign('message', $_SESSION[self::SESSION_USER_MESSAGE])
-            ->assign('menus', $this->menuItems->getMenuItemsArray())
-        ;
+            ->assign('menus', $this->menuItems->getMenuItemsArray());
     }
 
     /**
@@ -211,7 +219,7 @@ abstract class AbstractController implements ControllerInterface
     }
 
     /**
-     * @return string|null
+     * @return array|null
      */
     public function getLoggedUser()
     {
@@ -231,7 +239,10 @@ abstract class AbstractController implements ControllerInterface
      */
     public function logIn(User $user)
     {
-        $_SESSION[self::SESSION_USER_LOGGED] = $user->getEmail();
+        $_SESSION[self::SESSION_USER_LOGGED] = [
+            self::USER_ID => $user->getUserId(),
+            self::USER_LOGIN => $user->getEmail()
+        ];
     }
 
     /**
@@ -251,7 +262,7 @@ abstract class AbstractController implements ControllerInterface
     }
 
     /**
-     *
+     * Logging state should be checked and refreshed before calling given controller
      */
     public final function before()
     {
@@ -266,7 +277,7 @@ abstract class AbstractController implements ControllerInterface
     }
 
     /**
-     *
+     * Heart of frontend controller
      */
     public final function execute()
     {
@@ -276,7 +287,7 @@ abstract class AbstractController implements ControllerInterface
     }
 
     /**
-     *
+     * The message should be cleared after showing it
      */
     public final function after()
     {

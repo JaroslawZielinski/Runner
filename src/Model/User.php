@@ -79,6 +79,16 @@ class User
     }
 
     /**
+     * @param mixed $userId
+     * @return User
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
     public function getUserId()
@@ -151,6 +161,8 @@ class User
     }
 
     /**
+     * strip_tags used for html injection attack prevention
+     *
      * @param array $fields
      * @return User
      */
@@ -158,15 +170,15 @@ class User
     {
         $now = date('Y-m-d H:i:s');
         return new User(
-            isset($fields['user_id']) ? $fields['user_id'] : 0,
-            isset($fields['first_name']) ? $fields['first_name'] : "John",
-            isset($fields['last_name']) ? $fields['last_name'] : "Doe",
-            isset($fields['email']) ? $fields['email'] : "john.doe@gmail.com",
-            isset($fields['gender']) ? $fields['gender'] : "male",
-            isset($fields['is_active']) ? $fields['is_active'] : true,
-            isset($fields['password']) ? $fields['password'] : "secret",
-            isset($fields['created_at']) ? $fields['created_at'] : $now,
-            isset($fields['updated_at']) ? $fields['updated_at'] : $now
+            isset($fields['user_id']) ? strip_tags($fields['user_id']) : 0,
+            isset($fields['first_name']) ? strip_tags($fields['first_name']) : "John",
+            isset($fields['last_name']) ? strip_tags($fields['last_name']) : "Doe",
+            isset($fields['email']) ? strip_tags($fields['email']) : "john.doe@gmail.com",
+            isset($fields['gender']) ? strip_tags($fields['gender']) : "male",
+            isset($fields['is_active']) ? strip_tags($fields['is_active']) : true,
+            isset($fields['password']) ? strip_tags($fields['password']) : "secret",
+            isset($fields['created_at']) ? strip_tags($fields['created_at']) : $now,
+            isset($fields['updated_at']) ? strip_tags($fields['updated_at']) : $now
         );
     }
 

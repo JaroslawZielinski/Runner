@@ -14,15 +14,15 @@ class UserRepository
     /**
      * @var Database
      */
-    protected $dbase;
+    protected $database;
 
     /**
      * UserRepository constructor.
-     * @param Database $dbase
+     * @param Database $database
      */
-    public function __construct(Database $dbase)
+    public function __construct(Database $database)
     {
-        $this->dbase = $dbase;
+        $this->database = $database;
     }
 
     /**
@@ -32,7 +32,7 @@ class UserRepository
      */
     public function create(User $user)
     {
-        $insertStatement = $this->dbase->insert(['first_name', 'last_name', 'email', 'gender', 'is_active', 'password'])
+        $insertStatement = $this->database->insert(['first_name', 'last_name', 'email', 'gender', 'is_active', 'password'])
             ->into('users')
             ->values([
                 $user->getFirstName(),
@@ -54,7 +54,7 @@ class UserRepository
      */
     public function readByLoginAndPassword($login, $password)
     {
-        $selectStatement = $this->dbase->select()
+        $selectStatement = $this->database->select()
             ->from('users')
             ->where('email', '=', $login);
 
@@ -80,7 +80,7 @@ class UserRepository
      */
     public function getUserById($userId)
     {
-        $selectStatement = $this->dbase->select()
+        $selectStatement = $this->database->select()
             ->from('users')
             ->where('user_id', '=', $userId);
 
@@ -102,7 +102,7 @@ class UserRepository
      */
     public function getUsers($limit = 100)
     {
-        $selectStatement = $this->dbase->select()
+        $selectStatement = $this->database->select()
             ->from('users')
             ->limit($limit)
         ;
@@ -114,7 +114,7 @@ class UserRepository
 
         foreach ($data as $i => $part) {
             unset($part['password']);
-            $users[] = User::createFromArray($part);;
+            $users[] = User::createFromArray($part);
         }
 
         return $users;

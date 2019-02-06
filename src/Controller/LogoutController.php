@@ -2,7 +2,6 @@
 
 namespace JaroslawZielinski\Runner\Controller;
 
-
 /**
  * Class LoginController
  * @package JaroslawZielinski\Runner\Controller
@@ -14,15 +13,15 @@ class LogoutController extends AbstractController
      */
     public function send()
     {
+        // to prevent non logged user reach this site
         if ($this->checkIfSecurityIssueForAnonymous()) {
             return;
         }
 
         $this->logger->info(LogoutController::class . ' has called function register with POST');
 
-        //log-in user
+        //log-out user
         $this->logOut();
-        $this->before();
 
         //success
         $this->logger->info(LogoutController::class . ' User logged out');
@@ -33,7 +32,6 @@ class LogoutController extends AbstractController
 
     public function during()
     {
-        // TODO: Implement during() method.
     }
 }
 

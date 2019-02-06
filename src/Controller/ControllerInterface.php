@@ -9,6 +9,7 @@ namespace JaroslawZielinski\Runner\Controller;
 interface ControllerInterface
 {
     public function execute();
-    public function after();
+    public function before();
     public function during();
+    public function after();
 }

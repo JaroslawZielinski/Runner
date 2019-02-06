@@ -16,10 +16,12 @@ class RegisterController extends AbstractController
      */
     public function during()
     {
+        // to prevent logged users do silly things
         if ($this->checkIfSecurityIssueForLogged()) {
             return;
         }
 
+        //provide security check
         $this->setCsrfProtection();
 
         //show page
@@ -36,6 +38,7 @@ class RegisterController extends AbstractController
      */
     public function send()
     {
+        // to prevent logged users do silly things
         if ($this->checkIfSecurityIssueForLogged()) {
             return;
         }
@@ -61,6 +64,7 @@ class RegisterController extends AbstractController
         //create user
         try {
             $lastId = $this->userRepository->create($user);
+            $user->setUserId($lastId);
             $this->logger->info(RegisterController::class . ': User has been created!', ["lastId" => $lastId, "user" => $user->__toString()]);
         } catch (Exception $e) {
             $this->logger->error(RegisterController::class . ': ' . $e->getMessage(), [$e->getTrace()]);

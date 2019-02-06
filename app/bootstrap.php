@@ -15,7 +15,6 @@ use JaroslawZielinski\Runner\Plugins\FastRouterRoutings;
 use JaroslawZielinski\Runner\Plugins\FastRouterRoutingsInterface;
 use JaroslawZielinski\Runner\Plugins\MenuItems;
 use JaroslawZielinski\Runner\Plugins\MenuItemsInterface;
-use JaroslawZielinski\Runner\Plugins\Menus;
 use JaroslawZielinski\Runner\Plugins\Templates;
 use JaroslawZielinski\Runner\Plugins\TemplatesInterface;
 use Monolog\Formatter\LineFormatter;
@@ -82,15 +81,15 @@ class Application implements InvokerInterface
 
                 return new FastRouterRoutings($routes);
             }),
+            TemplatesInterface::class => factory(function (ContainerInterface $c) {
+                //templating system
+                return new Templates(new Smarty, $c->get('template_dir'));
+            }),
             FastRouter::class => create(FastRouter::class)
                 ->constructor(
                     get(FastRouterRoutingsInterface::class),
                     get(TemplatesInterface::class)
                 ),
-            TemplatesInterface::class => factory(function (ContainerInterface $c) {
-                //templating system
-                return new Templates(new Smarty, $c->get('template_dir'));
-            }),
             EasyStackTraceGenerator::class => create(EasyStackTraceGenerator::class)
                 ->constructor(
                     get(TemplatesInterface::class)
@@ -105,18 +104,18 @@ class Application implements InvokerInterface
                 //menu Items configuration file
                 $menuItems = Yaml::parseFile($c->get('menuitems_file'));
 
-                $menus = new MenuItems($routerRoutings, $menuItems);
-
-                return $menus;
+                return new MenuItems($routerRoutings, $menuItems);
             })
         ];
 
         $containerBuilder = new ContainerBuilder;
+
         $container = $containerBuilder
             ->addDefinitions($definitions)
             ->useAutowiring(true)
             ->useAnnotations(false)
-            ->build();
+            ->build()
+        ;
 
         return new Application($definitions, $container);
     }

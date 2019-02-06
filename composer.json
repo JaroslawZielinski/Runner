@@ -6,7 +6,7 @@
         "url": "https://github.com/JaroslawZielinski/project-dockerized.git"
       }
     ],
-    "description": "A tool to develop quickly a new project",
+    "description": "Runner - a tool to quickly start new task",
     "type": "project",
     "require": {
       "jaroslawzielinski/project-dockerized": "dev-master",
@@ -18,7 +18,8 @@
       "monolog/monolog": "^2.0@dev",
       "nikic/fast-route": "^2.0@dev",
       "smarty/smarty": "~3.1",
-      "vlucas/phpdotenv": "^3.3@dev"
+      "vlucas/phpdotenv": "^3.3@dev",
+      "league/csv": "^9.0@dev"
     },
     "license": "MIT",
     "authors": [
