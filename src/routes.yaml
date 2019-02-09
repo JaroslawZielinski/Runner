@@ -48,3 +48,9 @@ register.backend:
     - send
   method: POST
 
+# custom feature frontend
+customfeature.frontend:
+  path: /custom/feature
+  controller: JaroslawZielinski\Runner\Controller\CustomFeatureController
+  method: GET
+
