@@ -84,7 +84,7 @@ class User
      */
     public function setUserId($userId)
     {
-        $this->userId = $userId;
+        $this->userId = strip_tags($userId);
         return $this;
     }
 
