@@ -53,7 +53,7 @@ class Application implements InvokerInterface
 
         session_start();
 
-        ini_set('display_errors', 1);
+        ini_set('display_errors', 0);
     }
 
     /**
