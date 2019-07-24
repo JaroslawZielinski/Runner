@@ -52,6 +52,8 @@ class Application implements InvokerInterface
         $this->container = $container;
 
         session_start();
+
+        ini_set('display_errors', 1);
     }
 
     /**
