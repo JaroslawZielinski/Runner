@@ -19,7 +19,8 @@
       "nikic/fast-route": "^2.0@dev",
       "smarty/smarty": "~3.1",
       "vlucas/phpdotenv": "^3.3@dev",
-      "league/csv": "^9.0@dev"
+      "league/csv": "^9.0@dev",
+      "symfony/polyfill-intl-idn": "^1.11@dev"
     },
     "license": "MIT",
     "authors": [
