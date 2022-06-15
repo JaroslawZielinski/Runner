@@ -3,7 +3,7 @@
 namespace JaroslawZielinski\Runner\Model;
 
 use Exception;
-use Slim\PDO\Database;
+use FaaPz\PDO\Database;
 
 /**
  * Class UserRepository

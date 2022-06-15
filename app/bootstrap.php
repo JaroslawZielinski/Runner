@@ -8,6 +8,7 @@ use function DI\create;
 use function DI\factory;
 use function DI\get;
 use Dotenv\Dotenv;
+use FaaPz\PDO\Database;
 use Invoker\InvokerInterface;
 use JaroslawZielinski\Runner\Plugins\EasyStackTraceGenerator;
 use JaroslawZielinski\Runner\Plugins\FastRouter;
@@ -22,7 +23,6 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use Slim\PDO\Database;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -85,7 +85,7 @@ class Application implements InvokerInterface
             }),
             TemplatesInterface::class => factory(function (ContainerInterface $c) {
                 //templating system
-                return new Templates(new Smarty, $c->get('template_dir'));
+                return new Templates(new Smarty(), $c->get('template_dir'));
             }),
             FastRouter::class => create(FastRouter::class)
                 ->constructor(
@@ -110,14 +110,13 @@ class Application implements InvokerInterface
             })
         ];
 
-        $containerBuilder = new ContainerBuilder;
+        $containerBuilder = new ContainerBuilder();
 
         $container = $containerBuilder
             ->addDefinitions($definitions)
             ->useAutowiring(true)
             ->useAnnotations(false)
-            ->build()
-        ;
+            ->build();
 
         return new Application($definitions, $container);
     }
@@ -148,7 +147,7 @@ class Application implements InvokerInterface
      * @throws \DI\DependencyException
      * @throws \DI\NotFoundException
      */
-    public function call($callable, array $parameters = array())
+    public function call($callable, array $parameters = [])
     {
         try {
             $router = $this->container->get(FastRouter::class);
