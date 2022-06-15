@@ -3,13 +3,13 @@
     "repositories": [
       {
         "type": "vcs",
-        "url": "https://github.com/JaroslawZielinski/project-dockerized.git"
+        "url": "https://github.com/JaroslawZielinski/projectdockerized.git"
       }
     ],
     "description": "Runner - a tool to quickly start new task",
     "type": "project",
     "require": {
-      "jaroslawzielinski/project-dockerized": "dev-master",
+      "jaroslawzielinski/projectdockerized": "dev-master",
       "php-di/php-di": "dev-master",
       "symfony/yaml": "^4.3@dev",
       "slim/pdo": "~1.10",
@@ -37,8 +37,8 @@
     },
     "scripts": {
       "dockerize-myproject": [
-        "chmod +x vendor/jaroslawzielinski/project-dockerized/setup.sh",
-        "sh vendor/jaroslawzielinski/project-dockerized/setup.sh"
+        "chmod +x vendor/jaroslawzielinski/projectdockerized/setup.sh",
+        "sh vendor/jaroslawzielinski/projectdockerized/setup.sh"
       ],
       "post-install-cmd": [
         "@dockerize-myproject"
