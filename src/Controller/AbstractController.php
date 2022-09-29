@@ -6,6 +6,7 @@ namespace JaroslawZielinski\Runner\Controller;
 
 use JaroslawZielinski\Runner\Model\User;
 use JaroslawZielinski\Runner\Model\UserRepository;
+use JaroslawZielinski\Runner\Plugins\DotEnvSettings;
 use JaroslawZielinski\Runner\Plugins\FastRouterRoutingsInterface;
 use JaroslawZielinski\Runner\Plugins\MenuItemsInterface;
 use JaroslawZielinski\Runner\Plugins\TemplatesInterface;
@@ -53,6 +54,11 @@ abstract class AbstractController implements ControllerInterface
     protected $menuItems;
 
     /**
+     * @var DotEnvSettings
+     */
+    protected $dotEnvSettings;
+
+    /**
      * @var \Smarty
      */
     protected $templateHandler;
@@ -67,13 +73,15 @@ abstract class AbstractController implements ControllerInterface
         FastRouterRoutingsInterface $routerRoutings,
         TemplatesInterface $templates,
         UserRepository $userRepository,
-        MenuItemsInterface $menuItems
+        MenuItemsInterface $menuItems,
+        DotEnvSettings $dotEnvSettings
     ) {
         $this->logger = $logger;
         $this->routerRoutings = $routerRoutings;
         $this->templates = $templates;
         $this->userRepository = $userRepository;
         $this->menuItems = $menuItems;
+        $this->dotEnvSettings = $dotEnvSettings;
         $this->templateHandler = $this->templates->getHandler();
         $templateDir = '../' . $this->templates->getTemplateDir();
 

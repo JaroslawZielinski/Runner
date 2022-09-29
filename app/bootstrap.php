@@ -9,6 +9,7 @@ use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 use FaaPz\PDO\Database;
 use Invoker\InvokerInterface;
+use JaroslawZielinski\Runner\Plugins\DotEnvSettings;
 use JaroslawZielinski\Runner\Plugins\EasyStackTraceGenerator;
 use JaroslawZielinski\Runner\Plugins\FastRouter;
 use JaroslawZielinski\Runner\Plugins\FastRouterRoutings;
@@ -88,11 +89,23 @@ class Application implements InvokerInterface
                 ->constructor(
                     get(TemplatesInterface::class)
                 ),
-            DataBase::class => factory(function (ContainerInterface $c) {
+            DotEnvSettings::class => factory(function (ContainerInterface $c) {
                 $dotEnv = Dotenv::create($c->get('env_path'));
                 $envArr = $dotEnv->load();
+                return new DotEnvSettings($envArr);
+            }),
+            DataBase::class => factory(function (ContainerInterface $c) {
+                $dotEnvSettings = $c->get(DotEnvSettings::class);
                 //dbase
-                return new DataBase(sprintf("mysql:host=%s;dbname=%s;charset=utf8", $envArr['DB_HOST'], $envArr['DB_DATABASE']), "root", $envArr['DB_ROOT_PASSWORD']);
+                return new DataBase(
+                    sprintf(
+                        'mysql:host=%s;dbname=%s;charset=utf8',
+                        $dotEnvSettings->get('DB_HOST'),
+                        $dotEnvSettings->get('DB_DATABASE')
+                    ),
+                    'root',
+                    $dotEnvSettings->get('DB_ROOT_PASSWORD')
+                );
             }),
             MenuItemsInterface::class => factory(function (FastRouterRoutingsInterface $routerRoutings, ContainerInterface $c) {
                 //menu Items configuration file
