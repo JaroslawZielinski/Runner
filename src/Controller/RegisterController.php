@@ -1,18 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Controller;
 
-use Exception;
 use JaroslawZielinski\Runner\Model\User;
 
-/**
- * Class RegisterController
- * @package JaroslawZielinski\Runner\Controller
- */
 class RegisterController extends AbstractController
 {
     /**
-     *
+     * {@inheritDoc}
+     * @throws \SmartyException
      */
     public function during()
     {
@@ -36,11 +34,11 @@ class RegisterController extends AbstractController
     /**
      *
      */
-    public function send()
+    public function send(): bool
     {
         // to prevent logged users do silly things
         if ($this->checkIfSecurityIssueForLogged()) {
-            return;
+            return false;
         }
 
         $this->logger->info(RegisterController::class . ' has called function register with POST');
@@ -54,7 +52,7 @@ class RegisterController extends AbstractController
                 'check_token' => $_COOKIE[self::CSRF_TOKEN]
             ]);
 
-            header("Location: " . $this->routerRoutings->get('register.frontend'));
+            header('Location: ' . $this->routerRoutings->get('register.frontend'));
             return true;
         }
 
@@ -63,14 +61,20 @@ class RegisterController extends AbstractController
 
         //create user
         try {
-            $lastId = $this->userRepository->create($user);
+            $lastId = (int)$this->userRepository->create($user);
             $user->setUserId($lastId);
-            $this->logger->info(RegisterController::class . ': User has been created!', ["lastId" => $lastId, "user" => $user->__toString()]);
-        } catch (Exception $e) {
+            $this->logger->info(RegisterController::class . ': User has been created!', [
+                'lastId' => $lastId,
+                'user' => $user->__toString()
+            ]);
+        } catch (\Exception $e) {
             $this->logger->error(RegisterController::class . ': ' . $e->getMessage(), [$e->getTrace()]);
-            $this->setMessage(self::ALERT_DANGER, sprintf("Creating user was not accomplished because: %s", $e->getMessage()));
+            $this->setMessage(
+                self::ALERT_DANGER,
+                sprintf("Creating user was not accomplished because: %s", $e->getMessage()))
+            ;
 
-            header("Location: " . $this->routerRoutings->get('register.frontend'));
+            header('Location: ' . $this->routerRoutings->get('register.frontend'));
             return true;
         }
 
@@ -79,8 +83,11 @@ class RegisterController extends AbstractController
         $this->logIn($user);
         $this->logger->info(RegisterController::class . ' User has been logged in', [$user->__toString()]);
 
-        $this->setMessage(self::ALERT_SUCCESS, sprintf("Welcome <a class=\"alert-link\">\"%s\"</a>", $user->__toString()));
+        $this->setMessage(
+            self::ALERT_SUCCESS,
+            sprintf("Welcome <a class=\"alert-link\">\"%s\"</a>", htmlspecialchars($user->__toString()))
+        );
 
-        header("Location: " . $this->routerRoutings->get('homepage'));
+        header('Location: ' . $this->routerRoutings->get('homepage'));
     }
 }

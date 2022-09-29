@@ -1,42 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Plugins;
 
 use JaroslawZielinski\Runner\Menu\MenuInterface;
-use Exception;
 
-/**
- * Class MenuItems
- * @package JaroslawZielinski\Runner\Plugins
- */
 class MenuItems implements MenuItemsInterface
 {
     /**
      * @var FastRouterRoutingsInterface
      */
-    protected $routerRoutings;
+    private $routerRoutings;
 
     /**
      * @var array
      */
-    protected $menuItemsArray;
+    private $menuItemsArray;
 
-    /**
-     * MenuItems constructor.
-     * @param FastRouterRoutingsInterface $routerRoutings
-     * @param array $menuItemsArray
-     */
-    public function __construct(FastRouterRoutingsInterface $routerRoutings, array $menuItemsArray)
-    {
+    public function __construct(
+        FastRouterRoutingsInterface $routerRoutings,
+        array $menuItemsArray
+    ) {
         $this->menuItemsArray = $menuItemsArray;
         $this->routerRoutings = $routerRoutings;
     }
 
     /**
-     * @return array
-     * @throws Exception
+     * {@inheritDoc}
+     * @throws \Exception
      */
-    public function getMenuItemsArray()
+    public function getMenuItemsArray(): array
     {
         //sort with asc order
         uasort($this->menuItemsArray, function ($a, $b) {
@@ -51,7 +45,7 @@ class MenuItems implements MenuItemsInterface
             $instance = new $className($this->routerRoutings);
 
             if (!($instance instanceof MenuInterface)) {
-                throw new Exception("Wrong usage of a class name in configuration yml.");
+                throw new \Exception('Wrong usage of a class name in configuration yml.');
             }
 
             $name = $instance->getName();

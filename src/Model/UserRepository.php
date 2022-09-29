@@ -1,38 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Model;
 
-use Exception;
 use FaaPz\PDO\Database;
 
-/**
- * Class UserRepository
- * @package JaroslawZielinski\Runner\Model
- */
 class UserRepository
 {
     /**
      * @var Database
      */
-    protected $database;
+    private $database;
 
-    /**
-     * UserRepository constructor.
-     * @param Database $database
-     */
     public function __construct(Database $database)
     {
         $this->database = $database;
     }
 
     /**
-     * @param User $user
-     * @return string
-     * @throws Exception
+     * @throws \Exception
      */
-    public function create(User $user)
+    public function create(User $user): string
     {
-        $insertStatement = $this->database->insert(['first_name', 'last_name', 'email', 'gender', 'is_active', 'password'])
+        $insertStatement = $this->database->insert([
+            'first_name',
+            'last_name',
+            'email',
+            'gender',
+            'is_active',
+            'password'
+        ])
             ->into('users')
             ->values([
                 $user->getFirstName(),
@@ -47,12 +45,9 @@ class UserRepository
     }
 
     /**
-     * @param $login
-     * @param $password
-     * @return User
-     * @throws Exception
+     * @throws \Exception
      */
-    public function readByLoginAndPassword($login, $password)
+    public function readByLoginAndPassword(string $login, string $password): User
     {
         $selectStatement = $this->database->select()
             ->from('users')
@@ -60,25 +55,23 @@ class UserRepository
 
         $stmt = $selectStatement->execute();
         $data = $stmt->fetch();
-        $user = User::createFromArray($data);
+        $user = User::createFromArray(is_array($data) ? $data : [$data]);
 
         if (empty($user->getUserId())) {
-            throw new Exception('User with given login does not exists!');
+            throw new \Exception('User with given login does not exists!');
         }
 
         if (!password_verify($password, $user->getPassword())) {
-            throw new Exception('Password is not correct! Try again!');
+            throw new \Exception('Password is not correct! Try again!');
         }
 
         return $user;
     }
 
     /**
-     * @param $userId
-     * @return User
-     * @throws Exception
+     * @throws \Exception
      */
-    public function getUserById($userId)
+    public function getUserById(int $userId): User
     {
         $selectStatement = $this->database->select()
             ->from('users')
@@ -87,20 +80,16 @@ class UserRepository
         $stmt = $selectStatement->execute();
         $data = $stmt->fetch();
         unset($data['password']);
-        $user = User::createFromArray($data);
+        $user = User::createFromArray(is_array($data) ? $data : [$data]);
 
         if (empty($user->getUserId())) {
-            throw new Exception('User with given user_id does not exists!');
+            throw new \Exception('User with given user_id does not exists!');
         }
 
         return $user;
     }
 
-    /**
-     * @param int $limit
-     * @return array
-     */
-    public function getUsers($limit = 100)
+    public function getUsers(int $limit = 100): array
     {
         $selectStatement = $this->database->select()
             ->from('users')

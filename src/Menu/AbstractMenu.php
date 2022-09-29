@@ -1,14 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Menu;
 
 use JaroslawZielinski\Runner\Controller\AbstractController;
 use JaroslawZielinski\Runner\Plugins\FastRouterRoutingsInterface;
 
-/**
- * Class AbstractMenu
- * @package JaroslawZielinski\Runner\Menu
- */
 abstract class AbstractMenu implements MenuInterface
 {
     /**
@@ -16,27 +14,20 @@ abstract class AbstractMenu implements MenuInterface
      */
     protected $routerRoutings;
 
-    /**
-     * AbstractMenu constructor.
-     * @param FastRouterRoutingsInterface $routerRoutings
-     */
     public function __construct(FastRouterRoutingsInterface $routerRoutings)
     {
         $this->routerRoutings = $routerRoutings;
     }
 
     /**
-     * @return bool
+     * @inheritDoc
      */
     public function isVisible() : bool
     {
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    public function isLoggedUser()
+    public function isLoggedUser(): bool
     {
         return isset($_SESSION[AbstractController::SESSION_USER_LOGGED]);
     }

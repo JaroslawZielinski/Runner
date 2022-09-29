@@ -1,15 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Controller;
 
-/**
- * Class IndexController
- * @package JaroslawZielinski\Runner\Controller
- */
 class IndexController extends AbstractController
 {
     /**
-     *
+     * {@inheritDoc}
+     * @throws \SmartyException
      */
     public function during()
     {

@@ -1,15 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Plugins;
 
-use Exception;
 use Invoker\InvokerInterface;
-use Smarty;
 
-/**
- * Class EasyStackTraceGenerator
- * @package JaroslawZielinski\Runner\Plugins
- */
 class EasyStackTraceGenerator implements InvokerInterface
 {
     /**
@@ -18,14 +14,10 @@ class EasyStackTraceGenerator implements InvokerInterface
     protected $templates;
 
     /**
-     * @var Smarty
+     * @var \Smarty
      */
     protected $templateHandler;
 
-    /**
-     * EasyStackTraceGenerator constructor.
-     * @param TemplatesInterface $templates
-     */
     public function __construct(TemplatesInterface $templates)
     {
         $this->templates = $templates;
@@ -34,12 +26,8 @@ class EasyStackTraceGenerator implements InvokerInterface
     }
 
     /**
-     * Call the given function using the given parameters.
-     *
-     * @param Exception $exception
-     * @param array $parameters Parameters to use.
-     *
-     * @return mixed Result of the function.
+     * {@inheritDoc}
+     * @param \Exception $exception
      * @throws \SmartyException
      */
     public function call($exception, array $parameters = array())

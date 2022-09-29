@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Plugins;
 
-/**
- * Class MenuItemsInterface
- * @package JaroslawZielinski\Runner\Plugins
- */
 interface MenuItemsInterface
 {
-    public function getMenuItemsArray();
+    /**
+     * get menu items
+     */
+    public function getMenuItemsArray(): array;
 }

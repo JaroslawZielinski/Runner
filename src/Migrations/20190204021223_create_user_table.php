@@ -1,10 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 use Phinx\Migration\AbstractMigration;
 
-/**
- * Class CreateUserTable
- */
 class CreateUserTable extends AbstractMigration
 {
     /**
@@ -42,7 +41,10 @@ class CreateUserTable extends AbstractMigration
             ->addColumn('is_active', 'boolean', ['limit' => 100])
             ->addColumn('password', 'string', ['limit' => 255])
             ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
-            ->addColumn('updated_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP', 'update' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('updated_at', 'datetime', [
+                'default' => 'CURRENT_TIMESTAMP',
+                'update' => 'CURRENT_TIMESTAMP'
+            ])
             ->addIndex(['email'], [
                 'unique' => true,
                 'name' => 'idx_users_email'

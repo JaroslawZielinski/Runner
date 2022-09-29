@@ -1,16 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Plugins;
 
-/**
- * Interface FastRouterRoutingsInterface
- * @package JaroslawZielinski\Runner\Plugins
- */
 interface FastRouterRoutingsInterface
 {
+    /**
+     * get dispatcher
+     */
     public function getDispatcher();
 
-    public function get($id);
+    /**
+     * get by id
+     */
+    public function get(string $id): string;
 
-    public function getAttribute($id, $attribute);
+    /**
+     * get by attribute
+     */
+    public function getAttribute(string $id, string $attribute): string;
 }

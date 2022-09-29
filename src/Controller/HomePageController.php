@@ -1,15 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Controller;
 
-/**
- * Class HomePageController
- * @package JaroslawZielinski\Runner\Controller
- */
 class HomePageController extends AbstractController
 {
     /**
-     *
+     * {@inheritDoc}
+     * @throws \SmartyException
      */
     public function during()
     {

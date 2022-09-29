@@ -1,21 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Controller;
 
-/**
- * Class LoginController
- * @package JaroslawZielinski\Runner\Controller
- */
 class LogoutController extends AbstractController
 {
-    /**
-     *
-     */
-    public function send()
+    public function send(): bool
     {
         // to prevent non logged user reach this site
         if ($this->checkIfSecurityIssueForAnonymous()) {
-            return;
+            return false;
         }
 
         $this->logger->info(LogoutController::class . ' has called function register with POST');
@@ -27,11 +22,13 @@ class LogoutController extends AbstractController
         $this->logger->info(LogoutController::class . ' User logged out');
         $this->setMessage(self::ALERT_SUCCESS, "User logout.");
 
-        header("Location: " . $this->routerRoutings->get('homepage'));
+        header('Location: ' . $this->routerRoutings->get('homepage'));
     }
 
+    /**
+     * @inheritDoc
+     */
     public function during()
     {
     }
 }
-

@@ -1,15 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Command;
 
-use Exception;
 use JaroslawZielinski\Runner\Model\UserRepository;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class UserDetailCommand
- * @package JaroslawZielinski\Runner\Command
- */
 class UserDetailCommand
 {
     /**
@@ -17,21 +14,15 @@ class UserDetailCommand
      */
     private $repository;
 
-    /**
-     * UserDetailCommand constructor.
-     * @param UserRepository $repository
-     */
     public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
     }
 
     /**
-     * @param $id
-     * @param OutputInterface $output
-     * @return int
+     * @throws \Exception
      */
-    public function __invoke($id, OutputInterface $output)
+    public function __invoke(int $id, OutputInterface $output): int
     {
         $output->writeln('Information...');
 
@@ -47,8 +38,8 @@ class UserDetailCommand
             $output->writeln(sprintf("is active:\t<info>%s</info>", $article->getisActive()));
             $output->writeln(sprintf("gender:\t\t<info>%s</info>", $article->getGender()));
 
-        } catch (Exception $e) {
-            $output->writeln('Not succeded because of: ' + $e->getMessage());
+        } catch (\Exception $e) {
+            $output->writeln('Not succeded because of: ' . $e->getMessage());
         }
 
         // If everything is fine, we should return 0 to allow pipeline calls

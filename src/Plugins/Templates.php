@@ -1,46 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Plugins;
 
-/**
- * Class Templates
- * @package JaroslawZielinski\Runner\Plugins
- */
 class Templates implements TemplatesInterface
 {
     /**
-     * @var
+     * @var \Smarty
      */
-    protected $handler;
+    private $handler;
 
     /**
-     * @var
+     * @var string
      */
-    protected $templateDir;
+    private $templateDir;
 
-    /**
-     * Templates constructor.
-     * @param $handler
-     * @param $templateDir
-     */
-    public function __construct($handler, $templateDir)
+    public function __construct(\Smarty $handler, $templateDir)
     {
         $this->handler = $handler;
         $this->templateDir = $templateDir;
     }
 
     /**
-     * @return mixed
+     * @inheritDoc
      */
-    public function getHandler()
+    public function getHandler(): \Smarty
     {
         return $this->handler;
     }
 
     /**
-     * @return mixed
+     * @inheritDoc
      */
-    public function getTemplateDir()
+    public function getTemplateDir(): string
     {
         return $this->templateDir;
     }

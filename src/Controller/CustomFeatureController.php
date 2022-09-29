@@ -1,15 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Controller;
 
-/**
- * Class CustomFeatureController
- * @package JaroslawZielinski\Runner\Controller
- */
 class CustomFeatureController extends AbstractController
 {
     /**
-     *
+     * {@inheritDoc}
+     * @throws \SmartyException
      */
     public function during()
     {

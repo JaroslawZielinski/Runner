@@ -1,7 +1,7 @@
 {extends file="{$homepage}"}
 
 {block name=head}
-    <script src="/js/form.utils.min.js" type="text/javascript"></script>
+    <script src="/js/form.utils.js" type="text/javascript"></script>
 {/block}
 
 {block name=message-box}
@@ -47,28 +47,28 @@
     </div>
     <script type="text/javascript">
         jQuery(function() {
-            jQuery("form#login").on('submit', function() {
+            jQuery('form#login').on('submit', function() {
                 var validation = true;
 
-                var Email = jQuery("input#email").val();
-                var Password = jQuery("input#password").val();
+                var Email = jQuery('input#email').val();
+                var Password = jQuery('input#password').val();
 
-                if (Email.trim() == "" || !validateEmail(Email)) {
-                    showValidationError("email", "Given email \"" + Email + "\" is not correct!");
-                    disproveCorectness("email");
+                if ('' === Email.trim() || !SimpleFormUtils.validateEmail(Email)) {
+                    SimpleFormUtils.showValidationError('email', 'Given email "' + Email + '" is not correct!');
+                    SimpleFormUtils.disproveCorectness('email');
                     validation = false;
                 } else {
-                    hideValidationErorr("email");
-                    aproveCorectness("email");
+                    SimpleFormUtils.hideValidationErorr('email');
+                    SimpleFormUtils.aproveCorectness('email');
                 }
 
-                if (Password.trim() == "" || !validatePassword(Password)) {
-                    showValidationError("password", "Given password is not correct!");
-                    disproveCorectness("password");
+                if ('' === Password.trim() || !SimpleFormUtils.validatePassword(Password)) {
+                    SimpleFormUtils.showValidationError('password', 'Given password is not correct!');
+                    SimpleFormUtils.disproveCorectness('password');
                     validation = false;
                 } else {
-                    hideValidationErorr("password");
-                    aproveCorectness("password");
+                    SimpleFormUtils.hideValidationErorr('password');
+                    SimpleFormUtils.aproveCorectness('password');
                 }
 
                 return validation;

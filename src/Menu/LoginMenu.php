@@ -1,31 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Menu;
 
-/**
- * Class LoginMenu
- * @package JaroslawZielinski\Runner\Menu
- */
 class LoginMenu extends AbstractMenu
 {
     /**
-     * @return mixed
+     * @inheritDoc
      */
-    public function getLink()
+    public function getLink(): string
     {
         return $this->routerRoutings->get('login.frontend');
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
-    public function getName()
+    public function getName(): string
     {
-        return "Log in";
+        return 'Log in';
     }
 
     /**
-     * @return bool
+     * @inheritDoc
      */
     public function isVisible() : bool
     {

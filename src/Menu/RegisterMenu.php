@@ -1,31 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Menu;
 
-/**
- * Class RegisterMenu
- * @package JaroslawZielinski\Runner\Menu
- */
 class RegisterMenu extends AbstractMenu
 {
     /**
-     * @return mixed
+     * @inheritDoc
      */
-    public function getLink()
+    public function getLink(): string
     {
         return $this->routerRoutings->get('register.frontend');
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
-    public function getName()
+    public function getName(): string
     {
-        return "Register";
+        return 'Register';
     }
 
     /**
-     * @return bool
+     * @inheritDoc
      */
     public function isVisible() : bool
     {

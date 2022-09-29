@@ -1,7 +1,7 @@
 {extends file="{$homepage}"}
 
 {block name=head}
-    <script src="/js/form.utils.min.js" type="text/javascript"></script>
+    <script src="/js/form.utils.js" type="text/javascript"></script>
 {/block}
 
 {block name=message-box}
@@ -76,68 +76,68 @@
     </div>
     <script type="text/javascript">
         jQuery(function() {
-            jQuery("form#register").on('submit', function() {
+            jQuery('#register').on('submit', function(event) {
                 var validation = true;
 
-                var FirstName = jQuery("input#first_name").val();
-                var LastName = jQuery("input#last_name").val();
-                var Email = jQuery("input#email").val();
-                var Gender = jQuery("select#gender").val();
-                var Password = jQuery("input#password").val();
-                var Password2 = jQuery("input#password2").val();
+                var FirstName = jQuery('input#first_name').val();
+                var LastName = jQuery('input#last_name').val();
+                var Email = jQuery('input#email').val();
+                var Gender = jQuery('select#gender').val();
+                var Password = jQuery('input#password').val();
+                var Password2 = jQuery('input#password2').val();
 
-                if (FirstName.trim() == "") {
-                    showValidationError("first_name", "Given name \"" + FirstName + "\" length is not acceptable!");
-                    disproveCorectness("first_name");
+                if ('' === FirstName.trim()) {
+                    SimpleFormUtils.showValidationError('first_name', 'Given name "' + FirstName + '" length is not acceptable!');
+                    SimpleFormUtils.disproveCorectness('first_name');
                     validation = false;
                 } else {
-                    hideValidationErorr("first_name");
-                    aproveCorectness("first_name");
+                    SimpleFormUtils.hideValidationErorr('first_name');
+                    SimpleFormUtils.aproveCorectness('first_name');
                 }
 
-                if (LastName.trim() == "") {
-                    showValidationError("last_name", "Given name \"" + LastName + "\" length is not acceptable!");
-                    disproveCorectness("last_name");
+                if ('' === LastName.trim()) {
+                    SimpleFormUtils.showValidationError('last_name', 'Given name "' + LastName + '" length is not acceptable!');
+                    SimpleFormUtils.disproveCorectness('last_name');
                     validation = false;
                 } else {
-                    hideValidationErorr("last_name");
-                    aproveCorectness("last_name");
+                    SimpleFormUtils.hideValidationErorr('last_name');
+                    SimpleFormUtils.aproveCorectness('last_name');
                 }
 
-                if (Email.trim() == "" || !validateEmail(Email)) {
-                    showValidationError("email", "Given email \"" + Email + "\" is not correct!");
-                    disproveCorectness("email");
+                if ('' === Email.trim() || !SimpleFormUtils.validateEmail(Email)) {
+                    SimpleFormUtils.showValidationError('email', 'Given email "' + Email + '" is not correct!');
+                    SimpleFormUtils.disproveCorectness('email');
                     validation = false;
                 } else {
-                    hideValidationErorr("email");
-                    aproveCorectness("email");
+                    SimpleFormUtils.hideValidationErorr('email');
+                    SimpleFormUtils.aproveCorectness('email');
                 }
 
-                if (Gender === null) {
-                    showValidationError("gender", "Select gender!");
-                    disproveCorectness("gender");
+                if ('' === Gender || null === Gender) {
+                    SimpleFormUtils.showValidationError('gender', 'Select gender!');
+                    SimpleFormUtils.disproveCorectness('gender');
                     validation = false;
                 } else {
-                    hideValidationErorr("gender");
-                    aproveCorectness("gender");
+                    SimpleFormUtils.hideValidationErorr('gender');
+                    SimpleFormUtils.aproveCorectness('gender');
                 }
 
-                if (Password.trim() == "" || !validatePassword(Password)) {
-                    showValidationError("password", "Given password is not correct!");
-                    disproveCorectness("password");
+                if ('' === Password.trim() || !SimpleFormUtils.validatePassword(Password)) {
+                    SimpleFormUtils.showValidationError('password', 'Given password is not correct!');
+                    SimpleFormUtils.disproveCorectness('password');
                     validation = false;
                 } else {
-                    hideValidationErorr("password");
-                    aproveCorectness("password");
+                    SimpleFormUtils.hideValidationErorr('password');
+                    SimpleFormUtils.aproveCorectness('password');
                 }
 
-                if (Password !== Password2 || !validatePassword(Password2)) {
-                    showValidationError("password2", "Given passwords are not the same!");
-                    disproveCorectness("password2");
+                if (Password !== Password2 || !SimpleFormUtils.validatePassword(Password2)) {
+                    SimpleFormUtils.showValidationError('password2', 'Given passwords are not the same!');
+                    SimpleFormUtils.disproveCorectness('password2');
                     validation = false;
                 } else {
-                    hideValidationErorr("password2");
-                    aproveCorectness("password2");
+                    SimpleFormUtils.hideValidationErorr('password2');
+                    SimpleFormUtils.aproveCorectness('password2');
                 }
 
                 if (validation && confirm('Are you ready to register your profile?')) {

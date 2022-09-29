@@ -1,14 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Menu;
 
-/**
- * Interface MenuInterface
- * @package JaroslawZielinski\Runner\Menu
- */
 interface MenuInterface
 {
-    public function getLink();
-    public function getName();
+    /**
+     * Returns link
+     */
+    public function getLink(): string;
+    /**
+     * Returns Name
+     */
+    public function getName(): string;
+    /**
+     * Returns visibility
+     */
     public function isVisible() : bool;
 }

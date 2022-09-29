@@ -1,54 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Plugins;
 
 use FastRoute\Dispatcher;
 use Invoker\InvokerInterface;
-use Smarty;
 
-/**
- * Class FastRouter
- * @package JaroslawZielinski\Runner\Bootstrap
- */
 class FastRouter implements InvokerInterface
 {
-    /**
-     *
-     */
-    const DEFAULT_FUNCTION = 'execute';
+    public const DEFAULT_FUNCTION = 'execute';
 
     /**
      * @var FastRouterRoutingsInterface
      */
-    protected $routes;
+    private $routes;
 
     /**
      * @var TemplatesInterface
      */
-    protected $templates;
+    private $templates;
 
     /**
-     * @var Smarty
+     * @var \Smarty
      */
-    protected $templateHandler;
+    private $templateHandler;
 
-    /**
-     * FastRouter constructor.
-     * @param FastRouterRoutingsInterface $routes
-     * @param TemplatesInterface $templates
-     */
-    public function __construct(FastRouterRoutingsInterface $routes, TemplatesInterface $templates)
-    {
+    public function __construct(
+        FastRouterRoutingsInterface $routes,
+        TemplatesInterface $templates
+    ) {
         $this->routes = $routes;
         $this->templates = $templates;
         $this->templateHandler = $this->templates->getHandler();
-        $this->templateHandler->assign('homepage', '../' . $this->templates->getTemplateDir() . 'homepage.tpl');
+        $this->templateHandler
+            ->assign('homepage', '../' . $this->templates->getTemplateDir() . 'homepage.tpl');
     }
 
     /**
-     * @param $container
-     * @param array $parameters
-     * @return mixed|void
+     * {@inheritDoc}
+     * @param callable $container
      * @throws \SmartyException
      */
     public function call($container, array $parameters = array())

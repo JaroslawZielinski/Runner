@@ -1,72 +1,67 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Model;
 
-/**
- * Class User
- * @package JaroslawZielinski\Runner\Model
- */
 class User
 {
     /**
-     * @var
+     * @var int
      */
     protected $userId;
 
     /**
-     * @var
+     * @var string
      */
     protected $firstName;
 
     /**
-     * @var
+     * @var string
      */
     protected $lastName;
 
     /**
-     * @var
+     * @var string
      */
     protected $email;
 
     /**
-     * @var
+     * @var string
      */
     protected $gender;
 
     /**
-     * @var
+     * @var int
      */
     protected $isActive;
 
     /**
-     * @var
+     * @var string
      */
     protected $password;
 
     /**
-     * @var
+     * @var string
      */
     protected $createdAt;
 
     /**
-     * @var
+     * @var string
      */
     protected $updatedAt;
 
-    /**
-     * User constructor.
-     * @param $userId
-     * @param $firstName
-     * @param $lastName
-     * @param $email
-     * @param $gender
-     * @param $isActive
-     * @param $password
-     * @param $createdAt
-     * @param $updatedAt
-     */
-    public function __construct($userId, $firstName, $lastName, $email, $gender, $isActive, $password, $createdAt, $updatedAt)
-    {
+    public function __construct(
+        int $userId,
+        string $firstName,
+        string $lastName,
+        string $email,
+        string $gender,
+        int $isActive,
+        string $password,
+        string $createdAt,
+        string $updatedAt
+    ) {
         $this->userId = $userId;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
@@ -78,105 +73,71 @@ class User
         $this->updatedAt = $updatedAt;
     }
 
-    /**
-     * @param mixed $userId
-     * @return User
-     */
-    public function setUserId($userId)
+    public function setUserId(int $userId): self
     {
-        $this->userId = strip_tags($userId);
+        $this->userId = $userId;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLastName()
+    public function getLastName(): string
     {
         return $this->lastName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGender()
+    public function getGender(): string
     {
         return $this->gender;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getisActive()
+    public function getIsActive(): int
     {
         return $this->isActive;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): string
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): string
     {
         return $this->updatedAt;
     }
 
     /**
      * strip_tags used for html injection attack prevention
-     *
-     * @param array $fields
-     * @return User
      */
-    public static function createFromArray($fields = [])
+    public static function createFromArray(array $fields = []): User
     {
         $now = date('Y-m-d H:i:s');
         return new User(
-            isset($fields['user_id']) ? strip_tags($fields['user_id']) : 0,
-            isset($fields['first_name']) ? strip_tags($fields['first_name']) : "John",
-            isset($fields['last_name']) ? strip_tags($fields['last_name']) : "Doe",
-            isset($fields['email']) ? strip_tags($fields['email']) : "john.doe@gmail.com",
-            isset($fields['gender']) ? strip_tags($fields['gender']) : "male",
-            isset($fields['is_active']) ? strip_tags($fields['is_active']) : true,
-            isset($fields['password']) ? strip_tags($fields['password']) : "secret",
+            isset($fields['user_id']) ? (int)$fields['user_id'] : 0,
+            isset($fields['first_name']) ? strip_tags($fields['first_name']) : 'John',
+            isset($fields['last_name']) ? strip_tags($fields['last_name']) : 'Doe',
+            isset($fields['email']) ? strip_tags($fields['email']) : 'john.doe@gmail.com',
+            isset($fields['gender']) ? strip_tags($fields['gender']) : 'male',
+            isset($fields['is_active']) ? (int)$fields['is_active'] : 1,
+            isset($fields['password']) ? strip_tags($fields['password']) : 'secret',
             isset($fields['created_at']) ? strip_tags($fields['created_at']) : $now,
             isset($fields['updated_at']) ? strip_tags($fields['updated_at']) : $now
         );
@@ -187,6 +148,6 @@ class User
      */
     public function __toString()
     {
-        return sprintf("%s %s&lt;%s&gt;", $this->getFirstName(), $this->getLastName(), $this->getEmail());
+        return sprintf('%s %s<%s>', $this->getFirstName(), $this->getLastName(), $this->getEmail());
     }
 }

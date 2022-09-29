@@ -2,8 +2,9 @@
 
 require __DIR__ . '/app/bootstrap.php';
 
-use JaroslawZielinski\Runner\Command\UserDetailCommand;
+use JaroslawZielinski\Runner\Model\User;
 use JaroslawZielinski\Runner\Model\UserRepository;
+use JaroslawZielinski\Runner\Command\UserDetailCommand;
 use Symfony\Component\Console\Output\OutputInterface;
 
 $app = new Silly\Application();
@@ -14,7 +15,7 @@ $app->useContainer($myApp->getContainer(), $injectWithTypeHint = true);
 $app->command('users', function (OutputInterface $output, UserRepository $repository) {
     $output->writeln('<comment>Here are users in the data base:</comment>');
     $users = $repository->getUsers();
-    /** @var News $user */
+    /** @var User $user */
     foreach ($users as $user) {
         $output->writeln(sprintf(
             'User #%d %s is_active <info>%s</info>',

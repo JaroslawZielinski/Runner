@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 require_once __DIR__ . '/autoload.php';
 
 use DI\Container;
 use DI\ContainerBuilder;
-use function DI\create;
-use function DI\factory;
-use function DI\get;
 use Dotenv\Dotenv;
 use FaaPz\PDO\Database;
 use Invoker\InvokerInterface;
@@ -24,28 +23,22 @@ use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Yaml\Yaml;
+use function DI\create;
+use function DI\factory;
+use function DI\get;
 
-/**
- * Class Application
- */
 class Application implements InvokerInterface
 {
     /**
      * @var array
      */
-    protected $definitions;
-
+    private $definitions;
     /**
      *
      * @var Container
      */
-    protected $container;
+    private $container;
 
-    /**
-     * Application constructor.
-     * @param array $definitions
-     * @param Container $container
-     */
     public function __construct(array $definitions, Container $container)
     {
         $this->definitions = $definitions;
@@ -53,14 +46,13 @@ class Application implements InvokerInterface
 
         session_start();
 
-        ini_set('display_errors', 0);
+        ini_set('display_errors', '0');
     }
 
     /**
-     * @return Application
      * @throws Exception
      */
-    public static function create()
+    public static function create(): Application
     {
         $definitions = [
             'log_file' => '../log/runner.log',
@@ -121,31 +113,23 @@ class Application implements InvokerInterface
         return new Application($definitions, $container);
     }
 
-    /**
-     * @return Container
-     */
-    public function getContainer()
+    public function getContainer(): Container
     {
         return $this->container;
     }
 
     /**
-     * @return void
      * @throws Exception
      */
-    public static function run()
+    public static function run(): int
     {
         $app = Application::create();
         $app->call('', []);
+        return 0;
     }
 
     /**
-     * @param callable $callable
-     * @param array $parameters
-     * @return mixed|void
-     * @throws SmartyException
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @inheritDoc
      */
     public function call($callable, array $parameters = [])
     {

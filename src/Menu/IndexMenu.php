@@ -1,26 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Menu;
 
-/**
- * Class IndexMenu
- * @package JaroslawZielinski\Runner\Menu
- */
 class IndexMenu extends AbstractMenu
 {
     /**
-     * @return mixed
+     * @inheritDoc
      */
-    public function getLink()
+    public function getLink(): string
     {
         return $this->routerRoutings->get('index');
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
-    public function getName()
+    public function getName(): string
     {
-        return "";
+        return '';
     }
 }

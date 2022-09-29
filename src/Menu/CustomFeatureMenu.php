@@ -1,31 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Menu;
 
-/**
- * Class LogoutMenu
- * @package JaroslawZielinski\Runner\Menu
- */
 class CustomFeatureMenu extends AbstractMenu
 {
     /**
-     * @return mixed
+     * @inheritDoc
      */
-    public function getLink()
+    public function getLink(): string
     {
         return $this->routerRoutings->get('customfeature.frontend');
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
-    public function getName()
+    public function getName(): string
     {
-        return "Custom Feature";
+        return 'Custom Feature';
     }
 
     /**
-     * @return bool
+     * @inheritDoc
      */
     public function isVisible() : bool
     {

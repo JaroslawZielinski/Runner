@@ -1,17 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JaroslawZielinski\Runner\Controller;
 
-use Exception;
-
-/**
- * Class LoginController
- * @package JaroslawZielinski\Runner\Controller
- */
 class LoginController extends AbstractController
 {
     /**
-     *
+     * {@inheritDoc}
+     * @throws \SmartyException
      */
     public function during()
     {
@@ -30,14 +27,11 @@ class LoginController extends AbstractController
         $this->logger->info(LoginController::class . ' has called function execute');
     }
 
-    /**
-     *
-     */
-    public function send()
+    public function send(): bool
     {
         // to prevent logged users do silly things
         if ($this->checkIfSecurityIssueForLogged()) {
-            return;
+            return false;
         }
 
         $this->logger->info(LoginController::class . ' has called function register with POST');
@@ -51,22 +45,22 @@ class LoginController extends AbstractController
                 'check_token' => $_COOKIE[self::CSRF_TOKEN]
             ]);
 
-            header("Location: " . $this->routerRoutings->get('login.frontend'));
+            header('Location: ' . $this->routerRoutings->get('login.frontend'));
             return true;
         }
 
         //collect data
-        $login = isset($_POST['email']) ? $_POST['email'] : null;
-        $password = isset($_POST['password']) ? $_POST['password'] : null;
+        $login = $_POST['email'] ?? null;
+        $password = $_POST['password'] ?? null;
 
         //read user
         try {
             $user = $this->userRepository->readByLoginAndPassword(strip_tags($login), strip_tags($password));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->error(LoginController::class . ': ' . $e->getMessage(), [$e->getTrace()]);
             $this->setMessage(self::ALERT_DANGER, sprintf("Login attempt failed: %s!", $e->getMessage()));
 
-            header("Location: " . $this->routerRoutings->get('login.frontend'));
+            header('Location: ' . $this->routerRoutings->get('login.frontend'));
             return true;
         }
 
@@ -75,9 +69,14 @@ class LoginController extends AbstractController
 
         //success
         $this->logger->info(LoginController::class . ' Form was validated', [$user->__toString()]);
-        $this->setMessage(self::ALERT_SUCCESS, sprintf("User <a class=\"alert-link\">\"%s\"</a> has been logged!", $user->__toString()));
+        $this->setMessage(
+            self::ALERT_SUCCESS,
+            sprintf(
+                "User <a class=\"alert-link\">\"%s\"</a> has been logged!",
+                htmlspecialchars($user->__toString())
+            )
+        );
 
-        header("Location: " . $this->routerRoutings->get('homepage'));
+        header('Location: ' . $this->routerRoutings->get('homepage'));
     }
 }
-
