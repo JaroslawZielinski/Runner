@@ -13,7 +13,7 @@
       "php-di/php-di": "dev-master",
       "symfony/yaml": "^4.3@dev",
       "slim/pdo": "~1.10",
-      "robmorgan/phinx": "dev-master",
+      "robmorgan/phinx": "0.*",
       "mnapoli/silly": "dev-master",
       "monolog/monolog": "^2.0@dev",
       "nikic/fast-route": "^2.0@dev",
