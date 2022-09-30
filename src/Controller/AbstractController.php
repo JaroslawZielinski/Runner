@@ -92,7 +92,7 @@ abstract class AbstractController implements ControllerInterface
             ->assign('menus', $this->menuItems->getMenuItemsArray());
     }
 
-    public function checkIfSecurityIssueForLogged(): bool
+    protected function checkIfSecurityIssueForLogged(): bool
     {
         if ($this->isLoggedUser()) {
             $this->logger->warning("Logged user's unnecessary action");
@@ -106,7 +106,7 @@ abstract class AbstractController implements ControllerInterface
         return false;
     }
 
-    public function checkIfSecurityIssueForAnonymous(): bool
+    protected function checkIfSecurityIssueForAnonymous(): bool
     {
         if (!$this->isLoggedUser()) {
             $this->logger->warning('Anonymous user tried to gain unauthorized access...');
@@ -120,7 +120,7 @@ abstract class AbstractController implements ControllerInterface
         return false;
     }
 
-    public function setCsrfProtection(): void
+    protected function setCsrfProtection(): void
     {
         //create Token
         $this->csrfToken = md5((string)microtime(true));
@@ -132,7 +132,7 @@ abstract class AbstractController implements ControllerInterface
         $this->templateHandler->assign('csrfToken', $this->csrfToken);
     }
 
-    public function isCSRFAttempt(): bool
+    protected function isCSRFAttempt(): bool
     {
         //get Token from Cookie
         $cookie = $_COOKIE[self::CSRF_TOKEN];
@@ -144,7 +144,7 @@ abstract class AbstractController implements ControllerInterface
         return $cookie !== $this->csrfToken;
     }
 
-    public function setMessage(string $type = self::ALERT_INFO, string $content = 'Empty'): void
+    protected function setMessage(string $type = self::ALERT_INFO, string $content = 'Empty'): void
     {
         $_SESSION[self::SESSION_USER_MESSAGE] = [
             'type' => $type,
@@ -152,17 +152,17 @@ abstract class AbstractController implements ControllerInterface
         ];
     }
 
-    public function getLoggedUser(): ?array
+    protected function getLoggedUser(): ?array
     {
         return $this->isLoggedUser() ? $_SESSION[self::SESSION_USER_LOGGED] : null;
     }
 
-    public function isLoggedUser(): bool
+    protected function isLoggedUser(): bool
     {
         return isset($_SESSION[self::SESSION_USER_LOGGED]);
     }
 
-    public function logIn(User $user): void
+    protected function logIn(User $user): void
     {
         $_SESSION[self::SESSION_USER_LOGGED] = [
             self::USER_ID => $user->getUserId(),
@@ -170,12 +170,12 @@ abstract class AbstractController implements ControllerInterface
         ];
     }
 
-    public function logOut(): void
+    protected function logOut(): void
     {
         unset($_SESSION[self::SESSION_USER_LOGGED]);
     }
 
-    public function flushMessage(): void
+    protected function flushMessage(): void
     {
         unset($_SESSION[self::SESSION_USER_MESSAGE]);
     }
