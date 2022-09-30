@@ -5,6 +5,7 @@
 git clone https://github.com/JaroslawZielinski/Runner.git
 cd Runner
 composer install
+cp .env.dist .env
 run/dockerized destroy
 run/dockerized build
 run/dockerized init
