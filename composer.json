@@ -35,6 +35,12 @@
         "JaroslawZielinski\\Runner\\": "src/"
       }
     },
+    "funding": [
+        {
+          "type": "By me a coffee",
+          "url": "https://www.buymeacoffee.com/jaroslawzielinski"
+        }
+    ],
     "scripts": {
       "dockerize-myproject": [
         "chmod +x vendor/jaroslawzielinski/projectdockerized/setup.sh",
